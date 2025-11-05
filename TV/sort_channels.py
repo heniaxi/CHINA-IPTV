@@ -2,6 +2,37 @@ import requests
 import re
 import os
 
+def load_source_urls():
+    """从文件加载源地址列表"""
+    source_path = "TV/sources.txt"
+    urls = []
+
+    if not os.path.exists(source_path):
+        print(f"警告：未找到源地址文件 {source_path}，使用默认源")
+        return ["https://live.fanmingming.com/tv/m3u/ipv6.m3u"]
+
+    try:
+        with open(source_path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                # 跳过空行和注释
+                if not line or line.startswith('#'):
+                    continue
+                # 只添加有效的URL
+                if line.startswith('http'):
+                    urls.append(line)
+                    print(f"加载源地址: {line}")
+    except Exception as e:
+        print(f"读取源地址文件失败: {e}")
+        # 失败时返回默认源
+        return ["https://live.fanmingming.com/tv/m3u/ipv6.m3u"]
+
+    if not urls:
+        print("警告：源地址文件为空，使用默认源")
+        return ["https://live.fanmingming.com/tv/m3u/ipv6.m3u"]
+
+    return urls
+
 def load_categories_from_template():
     """从模板文件加载分类和频道信息"""
     categories = {}
@@ -114,11 +145,9 @@ def main():
     if not os.path.exists("TV"):
         os.makedirs("TV")
 
-    # 源地址列表
-    source_urls = [
-        "https://live.ottiptv.cc/iptv.m3u?userid=423579792&sign=1b9178f4a3fd4e0dc2a385881904a9c386395595d36b90d423e45f229d17e15f6ecd846bcccc97d223b5f580369a9b4cc49617734e42ee735e107e554d04bd2eec14386a398b&auth_token=acb0c268be4342419aa3ba49796b45e0",
-        "https://live.fanmingming.com/tv/m3u/ipv6.m3u"
-    ]
+    # 从文件加载源地址
+    source_urls = load_source_urls()
+    print(f"共加载 {len(source_urls)} 个源地址")
 
     # 获取并合并内容
     all_content = ""

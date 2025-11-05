@@ -16,6 +16,7 @@ cctv5,CCTV5
 CCTV5体育,CCTV5
 cctv5+,CCTV5+
 CCTV5+体育赛事,CCTV5+
+cctv5p,CCTV5+
 cctv6,CCTV6
 CCTV6电影,CCTV6
 cctv7,CCTV7
@@ -42,11 +43,15 @@ cctv17,CCTV17
 CCTV17农业农村,CCTV17
 CGTN 新闻,CGTN
 CGTN新闻,CGTN
+CGTNEN,CGTN
 CGTN西班牙语,CGTN西语
-CGTN法语
-CGTN俄语
+cgtnsp,CGTN西语
+cgtnfrench,GTN法语
+cgtnru,CGTN俄语
 CGTN阿拉伯语,CGTN阿语
+CGTNALBY,CGTN阿语
 CGTN外语纪录,CGTN纪录
+cgtndocumentary,CGTN纪录
 安徽卫视
 北京卫视
 重庆卫视
