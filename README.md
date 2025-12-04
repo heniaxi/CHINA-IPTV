@@ -196,7 +196,7 @@
         <td><a href="https://chinaiptv.pages.dev/Multicast/henan/mobile.txt">🛰️组播</a></td>
         <td><a href="https://chinaiptv.pages.dev/Unicast/henan/telecom.txt">🔗单播</a></td>
         <td><a href="https://chinaiptv.pages.dev/Multicast/henan/telecom.txt">🛰️组播</a></td>
-        <td>2020.05.02</td>
+        <td>2025.07.01</td>
     </tr>
     <tr>
         <td>湖北</td>
