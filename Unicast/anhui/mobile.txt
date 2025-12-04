@@ -20,11 +20,11 @@ CCTV15,http://120.210.193.151:8006/120000001003/live/program/_ahbyfh-1_/live/cct
 CCTV16,http://120.210.193.151:8006/120000001003/live/program/_ahbyfh-1_/live/cctv16hd8m/index.m3u8
 CCTV17,http://120.210.193.151:8006/120000001003/live/program/_ahbyfh-1_/live/cctv17hd4mc/index.m3u8
 CCTV17,http://120.210.193.151:8006/120000001002/XMTcctv-17hd/index.m3u8
-CGTN,http://120.210.193.151:8006/120000001001/wlds:8080/ysten-business/live/cctv-9/1.m3u8
-CGTN西语,
-CGTN法语,
-CGTN俄语,
-CGTN阿语,
+CGTN,http://120.210.193.151:8006/120000000058/G_CCTV-NEWS/index.m3u8
+CGTN西语,http://120.210.193.151:8006/120000000058/G_CGTN-ESPANOL/index.m3u8
+CGTN法语,http://120.210.193.151:8006/120000000058/G_CGTN-FRANCAIS/index.m3u8
+CGTN俄语,http://120.210.193.151:8006/120000000058/G_CGTN-PYCCNN/index.m3u8
+CGTN阿语,http://120.210.193.151:8006/120000000058/G_CGTN_A/index.m3u8
 
 卫视,#genre#
 安徽卫视,http://120.210.193.151:8006/120000001003/live/program/_ahbyfh-1_/live/ahwshd8m/index.m3u8
@@ -77,10 +77,9 @@ CETV2,http://120.210.193.151:8006/120000001002/XMTcetv-2/index.m3u8
 CETV4,http://120.210.193.151:8006/120000001002/XMTcetv-4/index.m3u8
 
 地方,#genre#
-金鹰卡通高清,http://120.210.193.151:8006/120000001001/wlds:8080/ysten-business/live/jinyingkaton/1.m3u8
-安徽经济高清,http://120.210.193.151:8006/120000001002/XMTah_jjhd/index.m3u8
-安徽影视高清,http://120.210.193.151:8006/120000001002/XMTah_yshd/index.m3u8
-安徽科教高清,http://120.210.193.151:8006/120000001002/XMTah_kjhd/index.m3u8
-安徽综艺高清,http://120.210.193.151:8006/120000001002/XMTah_zyhd/index.m3u8
-安徽公共高清,http://120.210.193.151:8006/120000001002/XMTah_gghd/index.m3u8
+安徽经济生活,http://120.210.193.151:8006/120000001002/XMTah_jjhd/index.m3u8
+安徽影视,http://120.210.193.151:8006/120000001002/XMTah_yshd/index.m3u8
+安徽农业科教,http://120.210.193.151:8006/120000001002/XMTah_kjhd/index.m3u8
+安徽综艺体育,http://120.210.193.151:8006/120000001002/XMTah_zyhd/index.m3u8
+安徽公共,http://120.210.193.151:8006/120000001002/XMTah_gghd/index.m3u8
 安徽国际,http://120.210.193.151:8006/120000001002/XMTahgj/index.m3u8
