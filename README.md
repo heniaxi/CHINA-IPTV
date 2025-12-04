@@ -86,7 +86,7 @@
         <td><a href="https://chinaiptv.pages.dev/Multicast/anhui/mobile.txt">🛰️组播</a></td>
         <td><a href="https://chinaiptv.pages.dev/Unicast/anhui/telecom.txt">🌐暂无</a></td>
         <td><a href="https://chinaiptv.pages.dev/Multicast/anhui/telecom.txt">🛰️组播</a></td>
-        <td>2020.02.27</td>
+        <td>2025.12.04</td>
     </tr>
     <tr>
         <td>北京</td>
@@ -96,7 +96,7 @@
         <td><a href="https://chinaiptv.pages.dev/Multicast/beijing/mobile.txt">🛰️组播</a></td>
         <td><a href="https://chinaiptv.pages.dev/Unicast/beijing/telecom.txt">🌐暂无</a></td>
         <td><a href="https://chinaiptv.pages.dev/Multicast/beijing/telecom.txt">🛰️组播</a></td>
-        <td>2020.02.27</td>
+        <td>2025.08.22</td>
     </tr>
     <tr>
         <td>重庆</td>
@@ -146,7 +146,7 @@
         <td><a href="https://chinaiptv.pages.dev/Multicast/guangxi/mobile.txt">🌐暂无</a></td>
         <td><a href="https://chinaiptv.pages.dev/Unicast/guangxi/telecom.txt">🔗单播</a></td>
         <td><a href="https://chinaiptv.pages.dev/Multicast/guangxi/telecom.txt">🛰️组播</a></td>
-        <td>2020.02.27</td>
+        <td>2025.07.09</td>
     </tr>
     <tr>
         <td>贵州</td>
@@ -166,7 +166,7 @@
         <td><a href="https://chinaiptv.pages.dev/Multicast/hainan/mobile.txt">🛰️组播</a></td>
         <td><a href="https://chinaiptv.pages.dev/Unicast/hainan/telecom.txt">🔗单播</a></td>
         <td><a href="https://chinaiptv.pages.dev/Multicast/hainan/telecom.txt">🛰️组播</a></td>
-        <td>2020.02.27</td>
+        <td>2025.07.27</td>
     </tr>
     <tr>
         <td>河北</td>
@@ -176,7 +176,7 @@
         <td><a href="https://chinaiptv.pages.dev/Multicast/hebei/mobile.txt">🛰️组播</a></td>
         <td><a href="https://chinaiptv.pages.dev/Unicast/hebei/telecom.txt">🔗单播</a></td>
         <td><a href="https://chinaiptv.pages.dev/Multicast/hebei/telecom.txt">🛰️组播</a></td>
-        <td>2020.02.27</td>
+        <td>2025.07.27</td>
     </tr>
     <tr>
         <td>黑龙江</td>
@@ -236,7 +236,7 @@
         <td><a href="https://chinaiptv.pages.dev/Multicast/jiangxi/mobile.txt">🌐暂无</a></td>
         <td><a href="https://chinaiptv.pages.dev/Unicast/jiangxi/telecom.txt">🔗单播</a></td>
         <td><a href="https://chinaiptv.pages.dev/Multicast/jiangxi/telecom.txt">🛰️组播</a></td>
-        <td>2020.02.27</td>
+        <td>2025.07.27</td>
     </tr>
     <tr>
         <td>吉林</td>
@@ -356,7 +356,7 @@
         <td><a href="https://chinaiptv.pages.dev/Multicast/xinjiang/mobile.txt">🌐暂无</a></td>
         <td><a href="https://chinaiptv.pages.dev/Unicast/xinjiang/telecom.txt">🌐暂无</a></td>
         <td><a href="https://chinaiptv.pages.dev/Multicast/xinjiang/telecom.txt">🛰️组播</a></td>
-        <td>2020.02.27</td>
+        <td>2025.07.27</td>
     </tr>
     <tr>
         <td>西藏</td>
