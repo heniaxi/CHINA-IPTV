@@ -81,23 +81,21 @@
             font-weight: bold;
         }
         .upload-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
             margin-bottom: 30px;
         }
         .upload-box {
             background: #f8f9fa;
             border: 2px dashed #dee2e6;
             border-radius: 10px;
-            padding: 20px;
+            padding: 40px;
             text-align: center;
             transition: all 0.3s ease;
             cursor: pointer;
-            min-height: 150px;
+            min-height: 200px;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            align-items: center;
         }
         .upload-box:hover {
             border-color: #667eea;
@@ -109,12 +107,13 @@
         }
         .upload-box h3 {
             color: #495057;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
         }
         .upload-box .file-info {
-            font-size: 0.9em;
+            font-size: 1em;
             color: #6c757d;
-            margin-top: 10px;
+            margin-top: 15px;
         }
         .upload-box .file-name {
             font-weight: bold;
@@ -131,7 +130,8 @@
             margin-bottom: 15px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: space-between;
+            font-size: 1.2em;
         }
         .file-items {
             display: flex;
@@ -142,38 +142,52 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 15px;
+            padding: 12px 18px;
             background: white;
             border-radius: 8px;
             border: 1px solid #dee2e6;
+            transition: all 0.2s;
+        }
+        .file-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         .file-item-info {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
             flex-wrap: wrap;
         }
         .file-item-name {
             font-weight: bold;
             color: #495057;
+            font-size: 1.1em;
         }
         .file-item-type {
-            font-size: 0.8em;
-            padding: 3px 8px;
-            border-radius: 12px;
+            font-size: 0.85em;
+            padding: 4px 10px;
+            border-radius: 20px;
             background: #e9ecef;
             color: #495057;
         }
         .file-item-count {
+            font-size: 0.95em;
+            color: #28a745;
+            background: #d4edda;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+        .file-item-size {
             font-size: 0.9em;
             color: #6c757d;
         }
         .file-item-remove {
             color: #dc3545;
             cursor: pointer;
-            padding: 5px 10px;
+            padding: 5px 12px;
             border-radius: 5px;
             transition: all 0.2s;
+            font-size: 0.95em;
         }
         .file-item-remove:hover {
             background: #f8d7da;
@@ -195,18 +209,20 @@
         .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+            transform: none;
         }
         .btn-secondary {
             background: #6c757d;
         }
         .btn-secondary:hover {
             background: #5a6268;
+            transform: scale(1.05);
         }
-        .btn-success {
-            background: #28a745;
+        .btn-danger {
+            background: #dc3545;
         }
-        .btn-success:hover {
-            background: #218838;
+        .btn-danger:hover {
+            background: #c82333;
         }
         .preview-section {
             display: grid;
@@ -225,6 +241,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            font-size: 1.1em;
         }
         .preview-box textarea {
             width: 100%;
@@ -233,7 +250,8 @@
             border: 1px solid #dee2e6;
             border-radius: 8px;
             font-family: 'Courier New', monospace;
-            font-size: 14px;
+            font-size: 13px;
+            line-height: 1.5;
             resize: vertical;
             background: white;
         }
@@ -255,9 +273,10 @@
         }
         .status {
             margin: 20px 0;
-            padding: 15px;
+            padding: 15px 20px;
             border-radius: 8px;
             display: none;
+            font-size: 1em;
         }
         .status.success {
             background: #d4edda;
@@ -289,15 +308,17 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            font-size: 1.2em;
         }
         .mapping-editor textarea {
             width: 100%;
             height: 150px;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #dee2e6;
-            border-radius: 5px;
+            border-radius: 8px;
             font-family: 'Courier New', monospace;
             font-size: 13px;
+            line-height: 1.5;
         }
         .stats {
             display: flex;
@@ -308,18 +329,19 @@
         .stat-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 15px 25px;
+            padding: 20px 25px;
             border-radius: 10px;
             flex: 1;
-            min-width: 150px;
+            min-width: 160px;
             text-align: center;
         }
         .stat-card .label {
-            font-size: 0.9em;
+            font-size: 1em;
             opacity: 0.9;
+            margin-bottom: 8px;
         }
         .stat-card .value {
-            font-size: 2em;
+            font-size: 2.2em;
             font-weight: bold;
         }
         .action-buttons {
@@ -327,12 +349,14 @@
             justify-content: center;
             gap: 15px;
             flex-wrap: wrap;
+            margin: 30px 0;
         }
         .footer {
             text-align: center;
             padding: 20px;
             color: #6c757d;
             border-top: 1px solid #dee2e6;
+            font-size: 0.95em;
         }
         @media (max-width: 768px) {
             .preview-section {
@@ -340,6 +364,12 @@
             }
             .header h1 {
                 font-size: 2em;
+            }
+            .upload-box {
+                padding: 30px 20px;
+            }
+            .file-item-info {
+                gap: 10px;
             }
         }
     </style>
@@ -373,21 +403,13 @@
 
         <!-- 文件上传区域 -->
         <div class="upload-section">
-            <!-- 多文件上传 -->
             <div class="upload-box" id="sourceDropZone">
-                <h3>📁 上传多个直播源文件</h3>
-                <p>拖拽文件到此处或点击上传 (支持 .txt .m3u .m3u8)</p>
-                <p style="font-size: 0.9em; color: #666;">可以同时选择多个文件</p>
+                <h3>📁 点击或拖拽上传直播源文件</h3>
+                <p style="color: #666; margin: 10px 0;">支持 .txt .m3u .m3u8 格式 | 可同时选择多个文件</p>
                 <input type="file" id="sourceFile" multiple accept=".txt,.m3u,.m3u8" style="display: none;">
-                <div id="sourceFileInfo" class="file-info">未选择文件</div>
-            </div>
-
-            <!-- 使用默认源按钮 -->
-            <div class="upload-box" style="cursor: default; border-style: solid;">
-                <h3>🌐 使用默认源</h3>
-                <p>或使用默认的IPv6直播源</p>
-                <button class="btn btn-secondary" id="useDefaultSource" style="margin: 10px 0; padding: 8px 20px; font-size: 0.9em;">📥 加载默认源</button>
-                <div id="defaultSourceInfo" class="file-info">https://live.fanmingming.com/tv/m3u/ipv6.m3u</div>
+                <div id="sourceFileInfo" class="file-info">
+                    <span style="color: #999;">未选择任何文件</span>
+                </div>
             </div>
         </div>
 
@@ -395,7 +417,10 @@
         <div class="file-list" id="fileList" style="display: none;">
             <h3>
                 📋 已上传文件列表
-                <button class="btn-secondary" id="clearAllFiles" style="padding: 5px 15px; font-size: 0.9em;">🗑️ 清空所有</button>
+                <div>
+                    <button class="btn-secondary" id="previewMergedBtn" style="padding: 6px 15px; font-size: 0.9em; margin-right: 10px;">👁️ 预览合并</button>
+                    <button class="btn-danger" id="clearAllFiles" style="padding: 6px 15px; font-size: 0.9em;">🗑️ 清空所有</button>
+                </div>
             </h3>
             <div class="file-items" id="fileItems"></div>
         </div>
@@ -404,7 +429,7 @@
         <div class="mapping-editor">
             <h3>
                 ✏️ 频道名称映射表
-                <button class="download-btn" id="resetMappingBtn" style="background: #6c757d;">🔄 重置为默认</button>
+                <button class="btn-secondary" id="resetMappingBtn" style="padding: 6px 15px; font-size: 0.9em;">🔄 重置为默认</button>
             </h3>
             <textarea id="mappingEditor" placeholder="格式：原始名称,标准化名称&#10;例如：CCTV1综合,CCTV1&#10;CCTV-1HD,CCTV1" rows="5"></textarea>
         </div>
@@ -435,7 +460,6 @@
         <!-- 操作按钮 -->
         <div class="action-buttons">
             <button class="btn" id="processBtn" disabled>🔄 开始合并排序处理</button>
-            <button class="btn btn-secondary" id="previewMergedBtn" disabled>👁️ 预览合并结果</button>
         </div>
 
         <!-- 预览区域 -->
@@ -445,7 +469,7 @@
                     📄 合并后原始文件预览
                     <span class="file-name" id="mergedFileName"></span>
                 </h3>
-                <textarea id="sourcePreview" readonly placeholder="合并后的原始内容预览..."></textarea>
+                <textarea id="sourcePreview" readonly placeholder="点击'预览合并'按钮查看合并后的原始内容..."></textarea>
             </div>
             <div class="preview-box">
                 <h3>
@@ -480,7 +504,6 @@
     const matchedChannels = document.getElementById('matchedChannels');
     const unmatchedChannels = document.getElementById('unmatchedChannels');
     const fileCount2 = document.getElementById('fileCount2');
-    const useDefaultSource = document.getElementById('useDefaultSource');
     const fileList = document.getElementById('fileList');
     const fileItems = document.getElementById('fileItems');
     const clearAllFiles = document.getElementById('clearAllFiles');
@@ -643,37 +666,6 @@ CGTN纪录
         checkFiles();
     }
 
-    // 加载默认源
-    async function loadDefaultSource() {
-        try {
-            sourceStatus.className = 'status-card';
-            sourceStatusText.innerHTML = '⏳ 正在加载默认源...';
-
-            const response = await fetch('https://live.fanmingming.com/tv/m3u/ipv6.m3u');
-            if (response.ok) {
-                const content = await response.text();
-
-                // 添加为文件
-                uploadedFiles.push({
-                    name: 'ipv6.m3u (默认源)',
-                    content: content,
-                    type: 'm3u',
-                    size: content.length
-                });
-
-                updateFileList();
-                checkFiles();
-                showStatus('info', '✅ 默认源加载成功');
-            } else {
-                throw new Error('加载失败');
-            }
-        } catch (error) {
-            sourceStatus.className = 'status-card error';
-            sourceStatusText.innerHTML = '❌ 加载失败';
-            showStatus('error', '❌ 加载默认源失败，请尝试上传本地文件');
-        }
-    }
-
     // 文件上传处理
     function setupDropZone(zone, input, infoElement) {
         zone.addEventListener('click', () => input.click());
@@ -773,7 +765,7 @@ CGTN纪录
         checkFiles();
         if (uploadedFiles.length === 0) {
             sourcePreview.value = '';
-            sourceFileInfo.innerHTML = '未选择文件';
+            sourceFileInfo.innerHTML = '<span style="color: #999;">未选择任何文件</span>';
         }
     };
 
@@ -783,16 +775,18 @@ CGTN纪录
         updateFileList();
         checkFiles();
         sourcePreview.value = '';
-        sourceFileInfo.innerHTML = '未选择文件';
+        resultPreview.value = '';
+        downloadBtn.style.display = 'none';
+        stats.style.display = 'none';
+        sourceFileInfo.innerHTML = '<span style="color: #999;">未选择任何文件</span>';
     });
 
     // 合并所有文件内容
     function mergeFiles() {
         let mergedContent = '';
-        let totalChannels = 0;
 
         uploadedFiles.forEach(file => {
-            mergedContent += `# 文件: ${file.name}\n`;
+            mergedContent += `# ===== 文件: ${file.name} =====\n`;
             mergedContent += file.content;
             mergedContent += '\n\n';
         });
@@ -815,9 +809,6 @@ CGTN纪录
         showStatus('info', '✅ 已重置为默认映射表');
     });
 
-    // 使用默认源
-    useDefaultSource.addEventListener('click', loadDefaultSource);
-
     // 设置上传区域
     setupDropZone(sourceDropZone, sourceFileInput, sourceFileInfo);
 
@@ -831,7 +822,7 @@ CGTN纪录
             if (!templateContent) {
                 showStatus('error', '❌ 模板文件未加载');
             } else if (uploadedFiles.length === 0) {
-                showStatus('info', '📁 请上传直播源文件或加载默认源');
+                showStatus('info', '📁 请上传直播源文件');
             }
         }
     }
@@ -1060,7 +1051,7 @@ CGTN纪录
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = 'merged_sorted_live.txt';
+        a.download = `merged_sorted_${new Date().toISOString().slice(0,10)}.txt`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
