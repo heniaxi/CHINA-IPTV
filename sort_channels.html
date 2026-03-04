@@ -765,6 +765,9 @@ CGTN纪录
         checkFiles();
         if (uploadedFiles.length === 0) {
             sourcePreview.value = '';
+            resultPreview.value = '';
+            downloadBtn.style.display = 'none';
+            stats.style.display = 'none';
             sourceFileInfo.innerHTML = '<span style="color: #999;">未选择任何文件</span>';
         }
     };
@@ -1012,11 +1015,47 @@ CGTN纪录
                 sortedContent.push('');
             }
 
-            // 处理未匹配的频道
+            // 处理未匹配的频道 - 修复：将相同名称的频道合并在一起
             const unmatchedLines = mappedLines.filter(line => !matchedLines.has(line));
+
             if (unmatchedLines.length > 0) {
                 sortedContent.push('其它,#genre#');
-                sortedContent.push(...unmatchedLines);
+
+                // 按频道名称分组
+                const groupedChannels = {};
+
+                unmatchedLines.forEach(line => {
+                    const parts = line.split(',');
+                    if (parts.length >= 2) {
+                        const channelName = parts[0];
+                        if (!groupedChannels[channelName]) {
+                            groupedChannels[channelName] = [];
+                        }
+                        groupedChannels[channelName].push(line);
+                    } else {
+                        // 如果没有名称（理论上不应该发生），也添加进去
+                        if (!groupedChannels['未知']) {
+                            groupedChannels['未知'] = [];
+                        }
+                        groupedChannels['未知'].push(line);
+                    }
+                });
+
+                // 按频道名称排序后输出
+                const sortedChannelNames = Object.keys(groupedChannels).sort((a, b) => {
+                    // 数字优先排序
+                    const aNum = parseInt(a.replace(/\D/g, '')) || 0;
+                    const bNum = parseInt(b.replace(/\D/g, '')) || 0;
+                    if (aNum && bNum) return aNum - bNum;
+                    return a.localeCompare(b, 'zh-CN');
+                });
+
+                sortedChannelNames.forEach(channelName => {
+                    groupedChannels[channelName].forEach(line => {
+                        sortedContent.push(line);
+                    });
+                });
+
                 sortedContent.push('');
             }
 
