@@ -21,7 +21,7 @@ jobs:
         run: |
           MAX_RETRIES=4
           RETRY_COUNT=0
-          RETRY_DELAY=300  # 5分钟 = 300秒
+          RETRY_DELAY=300
           DOWNLOAD_SUCCESS=false
           
           while [ $RETRY_COUNT -lt $MAX_RETRIES ] && [ "$DOWNLOAD_SUCCESS" = false ]; do
@@ -31,9 +31,8 @@ jobs:
             fi
             
             echo "📥 下载 EPG 文件 (尝试 $((RETRY_COUNT+1))/$MAX_RETRIES)..."
-            
-            # 下载文件，记录时间戳
             DOWNLOAD_START=$(date +%s)
+            
             wget --tries=2 --timeout=30 https://github.com/kuke31/xmlgz/raw/main/e.xml.gz -O e.xml.gz.new 2>download_error.log
             DOWNLOAD_EXIT_CODE=$?
             DOWNLOAD_END=$(date +%s)
@@ -48,14 +47,12 @@ jobs:
               continue
             fi
             
-            # 检查文件是否完整（检查gzip格式）
             if ! gzip -t e.xml.gz.new 2>/dev/null; then
               echo "⚠️ 下载的文件不是有效的 gzip 格式"
               RETRY_COUNT=$((RETRY_COUNT + 1))
               continue
             fi
             
-            # 解压文件
             echo "📦 解压文件..."
             if ! gunzip -f e.xml.gz.new; then
               echo "⚠️ 解压失败"
@@ -63,7 +60,6 @@ jobs:
               continue
             fi
             
-            # 检查解压后的文件
             if [ ! -f e.xml.new ] || [ ! -s e.xml.new ]; then
               echo "⚠️ 解压后的文件无效"
               RETRY_COUNT=$((RETRY_COUNT + 1))
@@ -78,7 +74,6 @@ jobs:
             exit 1
           fi
           
-          # 比较文件
           echo "🔍 比较文件变化..."
           if [ -f e.xml ]; then
             OLD_SIZE=$(wc -c < e.xml)
@@ -91,13 +86,12 @@ jobs:
             echo "旧文件: ${OLD_SIZE} 字节, ${OLD_LINES} 行, MD5: ${OLD_MD5}"
             echo "新文件: ${NEW_SIZE} 字节, ${NEW_LINES} 行, MD5: ${NEW_MD5}"
             
-            # 保存文件信息到环境变量，用于后续步骤
             echo "OLD_MD5=${OLD_MD5}" >> $GITHUB_ENV
             echo "NEW_MD5=${NEW_MD5}" >> $GITHUB_ENV
             
             if [ "$OLD_MD5" = "$NEW_MD5" ]; then
               echo "✅ 文件无变化，跳过更新"
-              echo "🕒 最后更新时间: $(stat -c %y e.xml)"
+              echo "🕒 最后更新时间: $(stat -c %y e.xml 2>/dev/null || echo '未知')"
               rm -f e.xml.new
               echo "updated=false" >> $GITHUB_OUTPUT
             else
@@ -116,7 +110,6 @@ jobs:
             echo "updated=true" >> $GITHUB_OUTPUT
           fi
           
-          # 记录运行时间
           echo "⏰ 检查完成时间: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
 
       - name: Commit and push changes with retry
@@ -125,7 +118,7 @@ jobs:
           MAX_PUSH_RETRIES=3
           PUSH_RETRY_COUNT=0
           PUSH_SUCCESS=false
-          PUSH_RETRY_DELAY=60  # 1分钟
+          PUSH_RETRY_DELAY=60
           
           while [ $PUSH_RETRY_COUNT -lt $MAX_PUSH_RETRIES ] && [ "$PUSH_SUCCESS" = false ]; do
             if [ $PUSH_RETRY_COUNT -gt 0 ]; then
@@ -136,19 +129,16 @@ jobs:
             git config --global user.name "github-actions[bot]"
             git config --global user.email "github-actions[bot]@users.noreply.github.com"
             
-            # 先拉取最新更改，避免冲突
             git pull --rebase origin main
             
             git add e.xml
             
-            # 检查是否有更改要提交
             if git diff --staged --quiet; then
               echo "⚠️ 没有新的更改需要提交"
               PUSH_SUCCESS=true
               break
             fi
             
-            # 提交更改
             COMMIT_MSG="Update EPG file
 - Date: $(date -u '+%Y-%m-%d %H:%M UTC')
 - Size: $(wc -c < e.xml) bytes
@@ -158,14 +148,12 @@ jobs:
             
             git commit -m "$COMMIT_MSG"
             
-            # 推送更改
             if git push; then
               echo "✅ 推送成功"
               PUSH_SUCCESS=true
             else
               echo "⚠️ 推送失败，重试中..."
               PUSH_RETRY_COUNT=$((PUSH_RETRY_COUNT + 1))
-              # 等待后重试
               sleep $PUSH_RETRY_DELAY
             fi
           done
@@ -180,12 +168,3 @@ jobs:
         run: |
           echo "⏭️ 文件无变化，跳过提交"
           echo "📊 MD5: ${{ env.OLD_MD5 }}"
-          
-      - name: Send notification on failure
-        if: failure()
-        run: |
-          echo "❌ 工作流执行失败"
-          echo "时间: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
-          echo "工作流: ${{ github.workflow }}"
-          echo "运行ID: ${{ github.run_id }}"
-          # 这里可以添加发送到 Slack/Discord/邮件等的通知
