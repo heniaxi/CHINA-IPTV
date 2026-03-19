@@ -67,54 +67,41 @@ jobs:
           
           # 比较文件变化
           echo "🔍 比较文件变化..."
-          if [ -f e.xml ]; then
-            # 计算当前文件的MD5（如果存在）
-            if [ -f e.xml ]; then
-              CURRENT_MD5=$(md5sum e.xml | cut -d' ' -f1)
-              CURRENT_SIZE=$(wc -c < e.xml)
-              CURRENT_LINES=$(wc -l < e.xml)
-              echo "当前文件: ${CURRENT_SIZE} 字节, ${CURRENT_LINES} 行, MD5: ${CURRENT_MD5}"
-              echo "CURRENT_MD5=${CURRENT_MD5}" >> $GITHUB_ENV
-            fi
-            
-            # 计算新文件的MD5
-            NEW_MD5=$(md5sum e.xml | cut -d' ' -f1)
-            NEW_SIZE=$(wc -c < e.xml)
-            NEW_LINES=$(wc -l < e.xml)
-            echo "新文件: ${NEW_SIZE} 字节, ${NEW_LINES} 行, MD5: ${NEW_MD5}"
-            echo "NEW_MD5=${NEW_MD5}" >> $GITHUB_ENV
-            
-            # 检查是否有旧文件（来自git）
-            if git show HEAD:e.xml &>/dev/null; then
-              # 获取git中最后一次提交的版本
-              git show HEAD:e.xml > e.xml.old 2>/dev/null || true
-              if [ -f e.xml.old ]; then
-                OLD_MD5=$(md5sum e.xml.old | cut -d' ' -f1)
-                OLD_SIZE=$(wc -c < e.xml.old)
-                OLD_LINES=$(wc -l < e.xml.old)
-                echo "Git中的文件: ${OLD_SIZE} 字节, ${OLD_LINES} 行, MD5: ${OLD_MD5}"
-                echo "OLD_MD5=${OLD_MD5}" >> $GITHUB_ENV
-                rm -f e.xml.old
-                
-                if [ "$OLD_MD5" = "$NEW_MD5" ]; then
-                  echo "✅ 文件无变化，跳过更新"
-                  echo "updated=false" >> $GITHUB_OUTPUT
-                else
-                  echo "🔄 文件有变化，准备更新"
-                  echo "📊 变化: $((NEW_SIZE - OLD_SIZE)) 字节, $((NEW_LINES - OLD_LINES)) 行"
-                  echo "updated=true" >> $GITHUB_OUTPUT
-                fi
+          
+          # 计算新文件的MD5
+          NEW_MD5=$(md5sum e.xml | cut -d' ' -f1)
+          NEW_SIZE=$(wc -c < e.xml)
+          NEW_LINES=$(wc -l < e.xml)
+          echo "新文件: ${NEW_SIZE} 字节, ${NEW_LINES} 行, MD5: ${NEW_MD5}"
+          echo "NEW_MD5=${NEW_MD5}" >> $GITHUB_ENV
+          
+          # 检查是否有旧文件（从git中）
+          if git show HEAD:e.xml &>/dev/null; then
+            # 获取git中最后一次提交的版本
+            git show HEAD:e.xml > e.xml.old 2>/dev/null || true
+            if [ -f e.xml.old ]; then
+              OLD_MD5=$(md5sum e.xml.old | cut -d' ' -f1)
+              OLD_SIZE=$(wc -c < e.xml.old)
+              OLD_LINES=$(wc -l < e.xml.old)
+              echo "Git中的文件: ${OLD_SIZE} 字节, ${OLD_LINES} 行, MD5: ${OLD_MD5}"
+              echo "OLD_MD5=${OLD_MD5}" >> $GITHUB_ENV
+              rm -f e.xml.old
+              
+              if [ "$OLD_MD5" = "$NEW_MD5" ]; then
+                echo "✅ 文件无变化，跳过更新"
+                echo "updated=false" >> $GITHUB_OUTPUT
               else
-                echo "🆕 无法获取git中的旧文件，视为有变化"
+                echo "🔄 文件有变化，准备更新"
+                echo "📊 变化: $((NEW_SIZE - OLD_SIZE)) 字节, $((NEW_LINES - OLD_LINES)) 行"
                 echo "updated=true" >> $GITHUB_OUTPUT
               fi
             else
-              echo "🆕 首次运行，创建文件"
+              echo "🆕 无法获取git中的旧文件，视为有变化"
               echo "updated=true" >> $GITHUB_OUTPUT
             fi
           else
-            echo "❌ 文件不存在"
-            exit 1
+            echo "🆕 首次运行，创建文件"
+            echo "updated=true" >> $GITHUB_OUTPUT
           fi
           
           echo "⏰ 检查完成时间: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
@@ -156,16 +143,13 @@ jobs:
             FILE_LINES=$(wc -l < e.xml)
             FILE_MD5=$(md5sum e.xml | cut -d' ' -f1)
             
-            # 构建提交信息
-            COMMIT_MSG="Update EPG file
-
-- Date: $(date -u '+%Y-%m-%d %H:%M UTC')
-- Size: ${FILE_SIZE} bytes
-- Lines: ${FILE_LINES}
-- MD5: ${FILE_MD5}
-- Previous MD5: ${OLD_MD5:-None}"
-
-            git commit -m "$COMMIT_MSG"
+            # 构建提交信息 - 使用管道符避免冒号问题
+            git commit -m "Update EPG file" \
+              -m "- Date: $(date -u '+%Y-%m-%d %H:%M UTC')" \
+              -m "- Size: ${FILE_SIZE} bytes" \
+              -m "- Lines: ${FILE_LINES}" \
+              -m "- MD5: ${FILE_MD5}" \
+              -m "- Previous MD5: ${OLD_MD5:-None}"
             
             if git push origin $BRANCH_NAME; then
               echo "✅ 推送成功"
@@ -185,4 +169,4 @@ jobs:
         if: steps.check.outputs.updated == 'false'
         run: |
           echo "⏭️ 文件无变化，跳过提交"
-          echo "📊 当前文件 MD5: $CURRENT_MD5"
+          echo "📊 当前文件 MD5: $NEW_MD5"
