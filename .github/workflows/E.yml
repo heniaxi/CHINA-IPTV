@@ -6,9 +6,13 @@ on:
     - cron: '50 09 * * *'  # 每天 9:50
     - cron: '35 14 * * *'  # 每天 14:35
   workflow_dispatch:  # 支持手动触发
+  
 jobs:
   build:
-@@ -16,26 +16,155 @@
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y wget gzip
 
