@@ -31,17 +31,12 @@ jobs:
             fi
             
             echo "📥 下载 EPG 文件 (尝试 $((RETRY_COUNT+1))/$MAX_RETRIES)..."
-            DOWNLOAD_START=$(date +%s)
             
-            wget --tries=2 --timeout=30 https://github.com/kuke31/xmlgz/raw/main/e.xml.gz -O e.xml.gz.new 2>download_error.log
-            DOWNLOAD_EXIT_CODE=$?
-            DOWNLOAD_END=$(date +%s)
-            DOWNLOAD_TIME=$((DOWNLOAD_END - DOWNLOAD_START))
+            # 下载gzip压缩文件
+            wget --tries=2 --timeout=30 https://github.com/kuke31/xmlgz/raw/main/e.xml.gz -O e.xml.gz 2>download_error.log
             
-            echo "下载耗时: ${DOWNLOAD_TIME}秒"
-            
-            if [ $DOWNLOAD_EXIT_CODE -ne 0 ] || [ ! -f e.xml.gz.new ] || [ ! -s e.xml.gz.new ]; then
-              echo "⚠️ 下载失败，错误代码: $DOWNLOAD_EXIT_CODE"
+            if [ $? -ne 0 ] || [ ! -f e.xml.gz ] || [ ! -s e.xml.gz ]; then
+              echo "⚠️ 下载失败"
               if [ -f download_error.log ]; then
                 cat download_error.log
               fi
@@ -49,26 +44,20 @@ jobs:
               continue
             fi
             
-            if ! gzip -t e.xml.gz.new 2>/dev/null; then
-              echo "⚠️ 下载的文件不是有效的 gzip 格式"
-              RETRY_COUNT=$((RETRY_COUNT + 1))
-              continue
-            fi
-            
+            # 解压文件
             echo "📦 解压文件..."
-            if ! gunzip -f e.xml.gz.new; then
+            if gunzip -f e.xml.gz; then
+              if [ -f e.xml ]; then
+                echo "✅ 下载并解压成功"
+                DOWNLOAD_SUCCESS=true
+              else
+                echo "⚠️ 解压后文件不存在"
+                RETRY_COUNT=$((RETRY_COUNT + 1))
+              fi
+            else
               echo "⚠️ 解压失败"
               RETRY_COUNT=$((RETRY_COUNT + 1))
-              continue
             fi
-            
-            if [ ! -f e.xml.new ] || [ ! -s e.xml.new ]; then
-              echo "⚠️ 解压后的文件无效"
-              RETRY_COUNT=$((RETRY_COUNT + 1))
-              continue
-            fi
-            
-            DOWNLOAD_SUCCESS=true
           done
           
           if [ "$DOWNLOAD_SUCCESS" = false ]; then
@@ -76,41 +65,56 @@ jobs:
             exit 1
           fi
           
+          # 比较文件变化
           echo "🔍 比较文件变化..."
           if [ -f e.xml ]; then
-            OLD_SIZE=$(wc -c < e.xml)
-            NEW_SIZE=$(wc -c < e.xml.new)
-            OLD_MD5=$(md5sum e.xml | cut -d' ' -f1)
-            NEW_MD5=$(md5sum e.xml.new | cut -d' ' -f1)
-            OLD_LINES=$(wc -l < e.xml)
-            NEW_LINES=$(wc -l < e.xml.new)
+            # 计算当前文件的MD5（如果存在）
+            if [ -f e.xml ]; then
+              CURRENT_MD5=$(md5sum e.xml | cut -d' ' -f1)
+              CURRENT_SIZE=$(wc -c < e.xml)
+              CURRENT_LINES=$(wc -l < e.xml)
+              echo "当前文件: ${CURRENT_SIZE} 字节, ${CURRENT_LINES} 行, MD5: ${CURRENT_MD5}"
+              echo "CURRENT_MD5=${CURRENT_MD5}" >> $GITHUB_ENV
+            fi
             
-            echo "旧文件: ${OLD_SIZE} 字节, ${OLD_LINES} 行, MD5: ${OLD_MD5}"
+            # 计算新文件的MD5
+            NEW_MD5=$(md5sum e.xml | cut -d' ' -f1)
+            NEW_SIZE=$(wc -c < e.xml)
+            NEW_LINES=$(wc -l < e.xml)
             echo "新文件: ${NEW_SIZE} 字节, ${NEW_LINES} 行, MD5: ${NEW_MD5}"
-            
-            # 保存到环境变量
-            echo "OLD_MD5=${OLD_MD5}" >> $GITHUB_ENV
             echo "NEW_MD5=${NEW_MD5}" >> $GITHUB_ENV
             
-            if [ "$OLD_MD5" = "$NEW_MD5" ]; then
-              echo "✅ 文件无变化，跳过更新"
-              echo "🕒 最后更新时间: $(stat -c %y e.xml 2>/dev/null || echo '未知')"
-              rm -f e.xml.new
-              echo "updated=false" >> $GITHUB_OUTPUT
+            # 检查是否有旧文件（来自git）
+            if git show HEAD:e.xml &>/dev/null; then
+              # 获取git中最后一次提交的版本
+              git show HEAD:e.xml > e.xml.old 2>/dev/null || true
+              if [ -f e.xml.old ]; then
+                OLD_MD5=$(md5sum e.xml.old | cut -d' ' -f1)
+                OLD_SIZE=$(wc -c < e.xml.old)
+                OLD_LINES=$(wc -l < e.xml.old)
+                echo "Git中的文件: ${OLD_SIZE} 字节, ${OLD_LINES} 行, MD5: ${OLD_MD5}"
+                echo "OLD_MD5=${OLD_MD5}" >> $GITHUB_ENV
+                rm -f e.xml.old
+                
+                if [ "$OLD_MD5" = "$NEW_MD5" ]; then
+                  echo "✅ 文件无变化，跳过更新"
+                  echo "updated=false" >> $GITHUB_OUTPUT
+                else
+                  echo "🔄 文件有变化，准备更新"
+                  echo "📊 变化: $((NEW_SIZE - OLD_SIZE)) 字节, $((NEW_LINES - OLD_LINES)) 行"
+                  echo "updated=true" >> $GITHUB_OUTPUT
+                fi
+              else
+                echo "🆕 无法获取git中的旧文件，视为有变化"
+                echo "updated=true" >> $GITHUB_OUTPUT
+              fi
             else
-              echo "🔄 文件有变化，准备更新"
-              echo "📊 变化: $((NEW_SIZE - OLD_SIZE)) 字节, $((NEW_LINES - OLD_LINES)) 行"
-              mv e.xml.new e.xml
+              echo "🆕 首次运行，创建文件"
               echo "updated=true" >> $GITHUB_OUTPUT
             fi
           else
-            echo "🆕 首次运行，创建文件"
-            NEW_SIZE=$(wc -c < e.xml.new)
-            NEW_LINES=$(wc -l < e.xml.new)
-            NEW_MD5=$(md5sum e.xml.new | cut -d' ' -f1)
-            echo "新文件: ${NEW_SIZE} 字节, ${NEW_LINES} 行, MD5: ${NEW_MD5}"
-            mv e.xml.new e.xml
-            echo "updated=true" >> $GITHUB_OUTPUT
+            echo "❌ 文件不存在"
+            exit 1
           fi
           
           echo "⏰ 检查完成时间: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
@@ -152,9 +156,15 @@ jobs:
             FILE_LINES=$(wc -l < e.xml)
             FILE_MD5=$(md5sum e.xml | cut -d' ' -f1)
             
-            # 构建提交信息 - 使用 | 保持格式，避免冒号问题
-            COMMIT_MSG="Update EPG file"$'\n'"-"$'\n'"- Date: $(date -u '+%Y-%m-%d %H:%M UTC')"$'\n'"- Size: ${FILE_SIZE} bytes"$'\n'"- Lines: ${FILE_LINES}"$'\n'"- MD5: ${FILE_MD5}"$'\n'"- Previous MD5: ${OLD_MD5}"
-            
+            # 构建提交信息
+            COMMIT_MSG="Update EPG file
+
+- Date: $(date -u '+%Y-%m-%d %H:%M UTC')
+- Size: ${FILE_SIZE} bytes
+- Lines: ${FILE_LINES}
+- MD5: ${FILE_MD5}
+- Previous MD5: ${OLD_MD5:-None}"
+
             git commit -m "$COMMIT_MSG"
             
             if git push origin $BRANCH_NAME; then
@@ -163,7 +173,6 @@ jobs:
             else
               echo "⚠️ 推送失败，重试中..."
               PUSH_RETRY_COUNT=$((PUSH_RETRY_COUNT + 1))
-              sleep $PUSH_RETRY_DELAY
             fi
           done
           
@@ -176,4 +185,4 @@ jobs:
         if: steps.check.outputs.updated == 'false'
         run: |
           echo "⏭️ 文件无变化，跳过提交"
-          echo "📊 当前文件 MD5: $OLD_MD5"
+          echo "📊 当前文件 MD5: $CURRENT_MD5"
