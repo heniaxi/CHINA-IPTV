@@ -2,8 +2,8 @@ name: 更新节目单
 
 on:
   schedule:
-    - cron: '4 0 * * *'   # 每天 00:20
-    - cron: '43 09 * * *'  # 每天 9:50
+    - cron: '4 16 * * *'   # 每天 00:20
+    - cron: '43 01 * * *'  # 每天 9:50
   workflow_dispatch:
 
 jobs:
