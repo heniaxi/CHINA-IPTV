@@ -290,12 +290,12 @@
     </tr>
     <tr>
         <td>陕西</td>
-        <td><a href="https://chinaiptv.pages.dev/Unicast/shan3xi/unicom.txt">🌐暂无</a></td>
-        <td><a href="https://chinaiptv.pages.dev/Multicast/shan3xi/unicom.txt">🌐暂无</a></td>
-        <td><a href="https://chinaiptv.pages.dev/Unicast/shan3xi/mobile.txt">🔗单播</a></td>
-        <td><a href="https://chinaiptv.pages.dev/Multicast/shan3xi/mobile.txt">🌐暂无</a></td>
-        <td><a href="https://chinaiptv.pages.dev/Unicast/shan3xi/telecom.txt">🔗单播</a></td>
-        <td><a href="https://chinaiptv.pages.dev/Multicast/shan3xi/telecom.txt">🛰️组播</a></td>
+        <td><a href="https://chinaiptv.pages.dev/Unicast/shaanxi/unicom.txt">🌐暂无</a></td>
+        <td><a href="https://chinaiptv.pages.dev/Multicast/shaanxi/unicom.txt">🌐暂无</a></td>
+        <td><a href="https://chinaiptv.pages.dev/Unicast/shaanxi/mobile.txt">🔗单播</a></td>
+        <td><a href="https://chinaiptv.pages.dev/Multicast/shaanxi/mobile.txt">🌐暂无</a></td>
+        <td><a href="https://chinaiptv.pages.dev/Unicast/shaanxi/telecom.txt">🔗单播</a></td>
+        <td><a href="https://chinaiptv.pages.dev/Multicast/shaanxi/telecom.txt">🛰️组播</a></td>
         <td>2020.05.10</td>
     </tr>
     <tr>
