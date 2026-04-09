@@ -38,11 +38,16 @@ def load_categories_from_template():
     categories = {}
     current_category = None
 
-    # 确保模板文件存在
+ # 确保模板文件存在
     template_path = "TV/moban.txt"
     if not os.path.exists(template_path):
         print(f"错误：未找到模板文件 {template_path}")
-@ -51,11 +47,9 @@ def load_categories_from_template():
+        return categories
+
+    try:
+        with open(template_path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
                 if not line:
                     continue
 
@@ -54,7 +59,12 @@ def load_categories_from_template():
                 elif current_category:
                     channel = line.strip()
                     if channel:
-@ -68,7 +62,6 @@ def load_categories_from_template():
+                        categories[current_category].append(channel)
+    except Exception as e:
+        print(f"读取模板文件出错: {e}")
+
+    return categories
+
 def fetch_m3u_content(url):
     """从URL获取M3U内容并转换为TXT格式"""
     try:
@@ -62,7 +72,8 @@ def fetch_m3u_content(url):
         m3u_url_match = re.search(r"https?://[^\s]+", url)
         if not m3u_url_match:
             print(f"无效的URL格式: {url}")
-@ -77,10 +70,12 @@ def fetch_m3u_content(url):
+            return ""
+
         m3u_url = m3u_url_match.group(0)
         print(f"正在获取: {m3u_url}")
 
