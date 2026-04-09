@@ -2,8 +2,8 @@ name: Live streaming source
 
 on:
   schedule:
-    - cron: "0 8 * * *"  # 每天早上8点执行
-  workflow_dispatch:  # 也可以手动触发
+    - cron: "0 8 * * *"
+  workflow_dispatch:
 
 jobs:
   sort_channels:
@@ -20,11 +20,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r ./TV/requirements.txt
+          pip install -r TV/requirements.txt
 
       - name: Run Python script
         run: |
-          python ./TV/sort_channels.py
+          cd TV
+          python sort_channels.py
 
       - name: Commit and push sorted file
         run: |
