@@ -28,7 +28,13 @@ def load_source_urls():
         return ["https://live.fanmingming.com/tv/m3u/ipv6.m3u"]
 
     if not urls:
-@ -38,7 +35,6 @@ def load_categories_from_template():
+        print("警告：源地址文件为空，使用默认源")
+        return ["https://live.fanmingming.com/tv/m3u/ipv6.m3u"]
+
+    return urls
+
+def load_categories_from_template():
+    """从模板文件加载分类和频道信息"""
     categories = {}
     current_category = None
 
