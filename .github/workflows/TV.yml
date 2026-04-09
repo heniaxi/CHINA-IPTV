@@ -20,12 +20,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r TV/requirements.txt
+          pip install requests
 
       - name: Run Python script
         run: |
-          cd TV
-          python sort_channels.py
+          python TV/sort_channels.py
 
       - name: Commit and push sorted file
         run: |

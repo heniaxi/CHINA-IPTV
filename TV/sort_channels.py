@@ -1,10 +1,16 @@
 import requests
 import re
 import os
+import sys
+
+def get_base_dir():
+    """获取脚本所在的目录（TV目录）"""
+    return os.path.dirname(os.path.abspath(__file__))
 
 def load_source_urls():
     """从文件加载源地址列表"""
-    source_path = "TV/sources.txt"
+    base_dir = get_base_dir()
+    source_path = os.path.join(base_dir, "sources.txt")
     urls = []
 
     if not os.path.exists(source_path):
@@ -35,7 +41,9 @@ def load_categories_from_template():
     categories = {}
     current_category = None
 
-    template_path = "TV/moban.txt"
+    base_dir = get_base_dir()
+    template_path = os.path.join(base_dir, "moban.txt")
+
     if not os.path.exists(template_path):
         print(f"错误：未找到模板文件 {template_path}")
         return categories
@@ -87,8 +95,11 @@ def fetch_m3u_content(url):
 def load_channel_mapping():
     """加载频道名称映射表"""
     mapping = {}
-    mapping_path = "TV/channel_mapping.txt"
+    base_dir = get_base_dir()
+    mapping_path = os.path.join(base_dir, "channel_mapping.txt")
+
     if not os.path.exists(mapping_path):
+        print(f"警告：未找到映射表文件 {mapping_path}")
         return mapping
 
     try:
@@ -99,6 +110,7 @@ def load_channel_mapping():
                     continue
                 old_name, new_name = line.split(",", 1)
                 mapping[old_name.strip()] = new_name.strip()
+        print(f"加载映射表成功，共 {len(mapping)} 条映射")
     except Exception as e:
         print(f"加载映射表失败: {e}")
     return mapping
@@ -136,9 +148,13 @@ def parse_m3u_to_txt(m3u_content):
     return txt_content.strip()
 
 def main():
-    # 确保TV目录存在
-    if not os.path.exists("TV"):
-        os.makedirs("TV")
+    base_dir = get_base_dir()
+    print(f"脚本所在目录: {base_dir}")
+
+    # 列出当前目录下的文件（调试用）
+    print("当前目录文件列表:")
+    for f in os.listdir(base_dir):
+        print(f"  - {f}")
 
     source_urls = load_source_urls()
     print(f"共加载 {len(source_urls)} 个源地址")
@@ -157,6 +173,10 @@ def main():
     if not categories:
         print("分类数据为空，请检查模板文件格式")
         return
+
+    print(f"加载分类: {list(categories.keys())}")
+    for cat, chs in categories.items():
+        print(f"  {cat}: {len(chs)}个频道")
 
     lines = all_content.splitlines()
     sorted_content = []
@@ -182,7 +202,7 @@ def main():
         sorted_content.extend(other_lines)
         sorted_content.append("")
 
-    output_path = "TV/live.txt"
+    output_path = os.path.join(base_dir, "live.txt")
     try:
         with open(output_path, "w", encoding="utf-8") as f:
             f.write("\n".join(sorted_content))
