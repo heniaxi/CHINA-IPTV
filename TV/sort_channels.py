@@ -192,6 +192,24 @@ def parse_txt_to_txt(txt_content, mapping):
         txt_content += "\n".join(channel_list) + "\n\n"
     return txt_content.strip(), channel_count
 
+def normalize_channel_name(name, mapping, reverse_mapping):
+    """标准化频道名称，用于匹配"""
+    # 先尝试直接映射
+    if name in mapping:
+        return mapping[name]
+
+    # 尝试反向映射（将别名映射回标准名）
+    for alias, standard in mapping.items():
+        if name == standard or name.startswith(standard):
+            return standard
+
+    # 尝试去除常见后缀
+    name_clean = re.sub(r'[-\s_].*$', '', name)
+    if name_clean in mapping:
+        return mapping[name_clean]
+
+    return name
+
 def count_channels_in_content(content):
     """统计内容中的频道数量（不包含分类行）"""
     if not content:
@@ -252,33 +270,83 @@ def main():
     for cat, chs in categories.items():
         print(f"  {cat}: {len(chs)}个频道")
 
-    # 5. 按模板整理频道
+    # 5. 解析所有频道行
     lines = all_content.splitlines()
-    sorted_content = []
-    all_lines = [line.strip() for line in lines if line.strip() and "#genre#" not in line]
+    all_channel_lines = []
 
+    for line in lines:
+        line = line.strip()
+        if line and "#genre#" not in line and "," in line:
+            parts = line.split(',', 1)
+            if len(parts) == 2 and parts[1].startswith('http'):
+                all_channel_lines.append(line)
+
+    print(f"\n📋 总共解析到 {len(all_channel_lines)} 个频道行")
+
+    # 6. 按模板分类整理频道
+    sorted_content = []
     matched_lines = set()
 
+    # 创建标准频道名集合，用于快速匹配
+    standard_channels = {}
+    for category, channels in categories.items():
+        for channel in channels:
+            standard_channels[channel] = category
+
+    # 匹配逻辑：将每个频道行中的频道名标准化后与模板对比
+    for line in all_channel_lines:
+        if line in matched_lines:
+            continue
+
+        # 提取频道名（逗号之前的部分）
+        channel_name = line.split(',', 1)[0].strip()
+
+        # 尝试匹配模板中的频道
+        matched = False
+        for standard_name, category in standard_channels.items():
+            # 完全匹配
+            if channel_name == standard_name:
+                matched = True
+                break
+            # 标准化后匹配
+            if standard_name in channel_name or channel_name in standard_name:
+                matched = True
+                break
+
+        if matched:
+            matched_lines.add(line)
+
+    # 按分类输出
     for category, channels in categories.items():
         sorted_content.append(f"{category},#genre#")
+        category_lines = []
         for channel in channels:
-            channel_pattern = re.escape(channel)
-            for line in all_lines:
-                if re.match(rf"^\s*{channel_pattern}\s*,", line, re.IGNORECASE):
-                    if line not in matched_lines:
-                        sorted_content.append(line)
-                        matched_lines.add(line)
-                        break
+            # 查找匹配该频道的行
+            for line in all_channel_lines:
+                if line in matched_lines:
+                    line_name = line.split(',', 1)[0].strip()
+                    if line_name == channel or channel in line_name:
+                        if line not in category_lines:
+                            category_lines.append(line)
+                            break
+        # 去重并排序
+        unique_lines = []
+        seen = set()
+        for line in category_lines:
+            if line not in seen:
+                seen.add(line)
+                unique_lines.append(line)
+        sorted_content.extend(unique_lines)
         sorted_content.append("")
 
-    # 6. 处理未匹配的频道
-    other_lines = [line for line in all_lines if line not in matched_lines]
+    # 7. 处理未匹配的频道
+    other_lines = [line for line in all_channel_lines if line not in matched_lines]
     if other_lines:
         sorted_content.append("其它,#genre#")
         sorted_content.extend(other_lines)
         sorted_content.append("")
 
-    # 7. 保存结果
+    # 8. 保存结果
     output_path = os.path.join(base_dir, "live.txt")
     try:
         with open(output_path, "w", encoding="utf-8") as f:
@@ -290,6 +358,12 @@ def main():
         print(f"\n✅ 多源合并完成，已保存为 {output_path}")
         print(f"📊 统计: {len(matched_lines)}个匹配频道, {len(other_lines)}个未分类频道")
         print(f"📊 总计频道数: {final_channel_count}")
+
+        # 显示未匹配的频道示例
+        if other_lines:
+            print(f"\n⚠️ 未匹配频道示例（前10个）:")
+            for line in other_lines[:10]:
+                print(f"   - {line.split(',')[0]}")
     except Exception as e:
         print(f"保存文件时出错: {e}")
 
