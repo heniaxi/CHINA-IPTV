@@ -38,7 +38,7 @@ def load_categories_from_template():
     categories = {}
     current_category = None
 
- # 确保模板文件存在
+    # 确保模板文件存在
     template_path = "TV/moban.txt"
     if not os.path.exists(template_path):
         print(f"错误：未找到模板文件 {template_path}")
@@ -66,13 +66,13 @@ def load_categories_from_template():
     return categories
 
 def fetch_m3u_content(url):
-    """从URL获取M3U内容并转换为TXT格式"""
+    """从URL获取M3U内容并转换为TXT格式，返回(内容, 频道数)"""
     try:
         # 从URL中提取实际的M3U URL
         m3u_url_match = re.search(r"https?://[^\s]+", url)
         if not m3u_url_match:
             print(f"无效的URL格式: {url}")
-            return ""
+            return "", 0
 
         m3u_url = m3u_url_match.group(0)
         print(f"正在获取: {m3u_url}")
@@ -80,14 +80,14 @@ def fetch_m3u_content(url):
         response = requests.get(m3u_url, timeout=10)
         response.raise_for_status()
 
-        # 解析M3U内容为TXT格式
+        # 解析M3U内容为TXT格式，返回(内容, 频道数)
         return parse_m3u_to_txt(response.text)
     except requests.exceptions.RequestException as e:
         print(f"请求失败: {e}")
-        return ""
+        return "", 0
     except Exception as e:
         print(f"处理内容时出错: {e}")
-        return ""
+        return "", 0
 
 def load_channel_mapping():
     """加载频道名称映射表"""
@@ -109,10 +109,12 @@ def load_channel_mapping():
     return mapping
 
 def parse_m3u_to_txt(m3u_content):
+    """解析M3U内容，返回(内容, 频道数)"""
     mapping = load_channel_mapping()
     lines = m3u_content.split('\n')
     channels = {}
     current_group = '未分组'
+    channel_count = 0  # 新增：统计频道数
 
     for i in range(len(lines)):
         line = lines[i].strip()
@@ -132,13 +134,14 @@ def parse_m3u_to_txt(m3u_content):
                     if group not in channels:
                         channels[group] = []
                     channels[group].append(f"{name},{url}")
+                    channel_count += 1  # 每添加一个频道，计数+1
                     current_group = group
 
     txt_content = ""
     for group, channel_list in channels.items():
         txt_content += f"{group},#genre#\n"
         txt_content += "\n".join(channel_list) + "\n\n"
-    return txt_content.strip()
+    return txt_content.strip(), channel_count
 
 def main():
     # 创建TV目录（如果不存在）
@@ -152,10 +155,19 @@ def main():
 
     # 获取并合并内容
     all_content = ""
-    for url in source_urls:
-        content = fetch_m3u_content(url)
+    total_channels = 0  # 新增：累计频道总数
+
+    for idx, url in enumerate(source_urls, 1):
+        print(f"\n--- 处理第 {idx}/{len(source_urls)} 个源 ---")
+        content, channel_count = fetch_m3u_content(url)
         if content:
             all_content += content + "\n\n"
+            total_channels += channel_count
+            print(f"✅ 源 {idx} 获取成功，频道数: {channel_count}")
+        else:
+            print(f"❌ 源 {idx} 获取失败或内容为空")
+
+    print(f"\n📊 总计从所有源获取频道数: {total_channels}")
 
     if not all_content:
         print("错误：未能获取任何有效内容")
@@ -184,8 +196,10 @@ def main():
             for line in all_lines:
                 # 检查频道名称是否在行首
                 if re.match(rf"^\s*{channel_pattern}\s*,", line, re.IGNORECASE):
-                    sorted_content.append(line)
-                    matched_lines.add(line)
+                    if line not in matched_lines:
+                        sorted_content.append(line)
+                        matched_lines.add(line)
+                    break  # 每个标准频道只取第一个
         sorted_content.append("")
 
     # 剩余未匹配的归入"其它"
@@ -200,8 +214,9 @@ def main():
     try:
         with open(output_path, "w", encoding="utf-8") as f:
             f.write("\n".join(sorted_content))
-        print(f"✅ 多源合并完成，已保存为 {output_path}")
-        print(f"统计: {len(matched_lines)}个匹配频道, {len(other_lines)}个未分类频道")
+        print(f"\n✅ 多源合并完成，已保存为 {output_path}")
+        print(f"📊 统计: {len(matched_lines)}个匹配频道, {len(other_lines)}个未分类频道")
+        print(f"📊 总计频道数: {len(matched_lines) + len(other_lines)}")
     except Exception as e:
         print(f"保存文件时出错: {e}")
 
