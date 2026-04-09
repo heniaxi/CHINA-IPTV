@@ -67,7 +67,7 @@ def load_categories_from_template():
 
     return categories
 
-def fetch_m3u_content(url):
+def fetch_m3u_content(url, mapping):
     """从URL获取M3U内容并转换为TXT格式"""
     try:
         m3u_url_match = re.search(r"https?://[^\s]+", url)
@@ -84,7 +84,13 @@ def fetch_m3u_content(url):
         response = requests.get(m3u_url, timeout=15, headers=headers)
         response.raise_for_status()
 
-        return parse_m3u_to_txt(response.text)
+        # 判断内容类型并调用相应的解析函数
+        content_type = response.headers.get('content-type', '').lower()
+        if 'm3u' in content_type or m3u_url.endswith('.m3u'):
+            return parse_m3u_to_txt(response.text, mapping)
+        else:
+            # 假设是TXT格式，直接处理
+            return parse_txt_to_txt(response.text, mapping)
     except requests.exceptions.RequestException as e:
         print(f"请求失败: {e}")
         return ""
@@ -115,8 +121,8 @@ def load_channel_mapping():
         print(f"加载映射表失败: {e}")
     return mapping
 
-def parse_m3u_to_txt(m3u_content):
-    mapping = load_channel_mapping()
+def parse_m3u_to_txt(m3u_content, mapping):
+    """解析M3U格式内容"""
     lines = m3u_content.split('\n')
     channels = {}
     current_group = '未分组'
@@ -147,6 +153,41 @@ def parse_m3u_to_txt(m3u_content):
         txt_content += "\n".join(channel_list) + "\n\n"
     return txt_content.strip()
 
+def parse_txt_to_txt(txt_content, mapping):
+    """解析TXT格式内容（频道名,URL格式）"""
+    lines = txt_content.split('\n')
+    channels = {}
+    current_group = '未分组'
+
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+
+        # 处理分类行
+        if ",#genre#" in line:
+            current_group = line.split(",")[0].strip()
+            continue
+
+        # 处理频道行
+        if ',' in line:
+            parts = line.split(',', 1)
+            if len(parts) == 2 and parts[1].startswith('http'):
+                name = parts[0].strip()
+                url = parts[1].strip()
+                # 应用映射
+                name = mapping.get(name, name)
+
+                if current_group not in channels:
+                    channels[current_group] = []
+                channels[current_group].append(f"{name},{url}")
+
+    txt_content = ""
+    for group, channel_list in channels.items():
+        txt_content += f"{group},#genre#\n"
+        txt_content += "\n".join(channel_list) + "\n\n"
+    return txt_content.strip()
+
 def main():
     base_dir = get_base_dir()
     print(f"脚本所在目录: {base_dir}")
@@ -156,28 +197,39 @@ def main():
     for f in os.listdir(base_dir):
         print(f"  - {f}")
 
+    # 1. 加载映射表（只加载一次）
+    mapping = load_channel_mapping()
+
+    # 2. 加载源地址
     source_urls = load_source_urls()
     print(f"共加载 {len(source_urls)} 个源地址")
 
+    # 3. 获取并合并所有源的内容
     all_content = ""
-    for url in source_urls:
-        content = fetch_m3u_content(url)
+    for idx, url in enumerate(source_urls, 1):
+        print(f"\n--- 处理第 {idx}/{len(source_urls)} 个源 ---")
+        content = fetch_m3u_content(url, mapping)
         if content:
             all_content += content + "\n\n"
+            print(f"源 {idx} 获取成功，内容长度: {len(content)} 字符")
+        else:
+            print(f"源 {idx} 获取失败或内容为空")
 
     if not all_content:
         print("错误：未能获取任何有效内容")
         return
 
+    # 4. 加载分类模板
     categories = load_categories_from_template()
     if not categories:
         print("分类数据为空，请检查模板文件格式")
         return
 
-    print(f"加载分类: {list(categories.keys())}")
+    print(f"\n加载分类: {list(categories.keys())}")
     for cat, chs in categories.items():
         print(f"  {cat}: {len(chs)}个频道")
 
+    # 5. 按模板整理频道
     lines = all_content.splitlines()
     sorted_content = []
     all_lines = [line.strip() for line in lines if line.strip() and "#genre#" not in line]
@@ -196,18 +248,21 @@ def main():
                         break
         sorted_content.append("")
 
+    # 6. 处理未匹配的频道
     other_lines = [line for line in all_lines if line not in matched_lines]
     if other_lines:
         sorted_content.append("其它,#genre#")
         sorted_content.extend(other_lines)
         sorted_content.append("")
 
+    # 7. 保存结果
     output_path = os.path.join(base_dir, "live.txt")
     try:
         with open(output_path, "w", encoding="utf-8") as f:
             f.write("\n".join(sorted_content))
-        print(f"✅ 多源合并完成，已保存为 {output_path}")
+        print(f"\n✅ 多源合并完成，已保存为 {output_path}")
         print(f"统计: {len(matched_lines)}个匹配频道, {len(other_lines)}个未分类频道")
+        print(f"总计频道数: {len(matched_lines) + len(other_lines)}")
     except Exception as e:
         print(f"保存文件时出错: {e}")
 
