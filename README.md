@@ -286,7 +286,7 @@
         <td><a href="https://chinaiptv.pages.dev/Multicast/qinghai/mobile.txt">🌐暂无</a></td>
         <td><a href="https://chinaiptv.pages.dev/Unicast/qinghai/telecom.txt">🔗单播</a></td>
         <td><a href="https://chinaiptv.pages.dev/Multicast/qinghai/telecom.txt">🛰️组播</a></td>
-        <td>2020.05.07</td>
+        <td>2025.05.07</td>
     </tr>
     <tr>
         <td>陕西</td>
@@ -296,7 +296,7 @@
         <td><a href="https://chinaiptv.pages.dev/Multicast/shaanxi/mobile.txt">🌐暂无</a></td>
         <td><a href="https://chinaiptv.pages.dev/Unicast/shaanxi/telecom.txt">🔗单播</a></td>
         <td><a href="https://chinaiptv.pages.dev/Multicast/shaanxi/telecom.txt">🛰️组播</a></td>
-        <td>2020.05.10</td>
+        <td>2025.05.10</td>
     </tr>
     <tr>
         <td>山东</td>
@@ -306,7 +306,7 @@
         <td><a href="https://chinaiptv.pages.dev/Multicast/shandong/mobile.txt">🛰️组播</a></td>
         <td><a href="https://chinaiptv.pages.dev/Unicast/shandong/telecom.txt">🔗单播</a></td>
         <td><a href="https://chinaiptv.pages.dev/Multicast/shandong/telecom.txt">🛰️组播</a></td>
-        <td>2020.05.07</td>
+        <td>2025.05.07</td>
     </tr>
     <tr>
         <td>上海</td>
@@ -366,7 +366,7 @@
         <td><a href="https://chinaiptv.pages.dev/Multicast/xizang/mobile.txt">🌐暂无</a></td>
         <td><a href="https://chinaiptv.pages.dev/Unicast/xizang/telecom.txt">🌐暂无</a></td>
         <td><a href="https://chinaiptv.pages.dev/Multicast/xizang/telecom.txt">🛰️组播</a></td>
-        <td>2020.05.10</td>
+        <td>2025.05.10</td>
     </tr>
     <tr>
         <td>云南</td>
