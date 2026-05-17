@@ -66,8 +66,7 @@
 </table>
 
 ### 🏄‍♀️源地址
-
-<table>
+<table style="width: 100%;">
   <thead>
     <tr>
       <th>地区</th>
