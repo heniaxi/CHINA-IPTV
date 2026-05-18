@@ -26,7 +26,9 @@ CCTV-4高清,CCTV4
 CCTV4中文国际,CCTV4
 CCTV-4中文国际,CCTV4
 CCTV4欧洲,CCTV4欧洲
+CCTV4中文国际欧洲高清,CCTV4欧洲
 CCTV4美洲,CCTV4美洲
+CCTV4中文国际美洲高清,CCTV4美洲
 cctv5,CCTV5
 cctv-5,CCTV5
 CCTV-5,CCTV5
@@ -37,6 +39,7 @@ cctv5+,CCTV5+
 cctv-5+,CCTV5+
 CCTV-5+,CCTV5+
 CCTV-5+高清,CCTV5+
+CCTV5+体育高清,CCTV5+
 CCTV5+体育赛事,CCTV5+
 CCTV-5+体育赛事,CCTV5+
 cctv5p,CCTV5+
@@ -52,6 +55,7 @@ CCTV-7,CCTV7
 CCTV-7高清,CCTV7
 CCTV7国防军事,CCTV7
 CCTV-7国防军事,CCTV7
+CCTV-7国防军事高清,CCTV7
 cctv8,CCTV8
 cctv-8,CCTV8
 CCTV-8,CCTV8
@@ -95,6 +99,7 @@ CCTV-14高清,CCTV14
 CCTV-少儿,CCTV14
 CCTV14少儿,CCTV14
 CCTV-14少儿,CCTV14
+CCTV-14少儿高清,,CCTV14
 cctv15,CCTV15
 cctv-15,CCTV15
 CCTV-15,CCTV15
@@ -111,17 +116,23 @@ cctv17,CCTV17
 cctv-17,CCTV17
 CCTV-17,CCTV17
 CCTV-17高清,CCTV17
+CCTV-17农业高清,CCTV17
 CCTV17农业农村,CCTV17
 CCTV-17农业农村,CCTV17
 CGTN 新闻,CGTN
 CGTN新闻,CGTN
 CGTNEN,CGTN
 CGTN英语,CGTN
+CGTN 英语,CGTN
 CGTN西班牙语,CGTN西语
+CGTN 西班牙语,CGTN西语
 cgtnsp,CGTN西语
 cgtnfrench,CGTN法语
+CGTN 法语,CGTN法语
 cgtnru,CGTN俄语
+CGTN 俄语,CGTN俄语
 CGTN阿拉伯语,CGTN阿语
+CGTN 阿拉伯语,CGTN阿语
 CGTNALBY,CGTN阿语
 CGTN外语纪录,CGTN纪录
 CGTN记录,CGTN纪录
@@ -133,6 +144,7 @@ cgtndocumentary,CGTN纪录
 北京卫视4k,北京卫视
 北京卫视4K,北京卫视
 北京卫视高清,北京卫视
+兵团卫视高清,兵团卫视
 重庆卫视4k,重庆卫视
 重庆卫视4K,重庆卫视
 重庆卫视高清,重庆卫视
@@ -142,6 +154,8 @@ cgtndocumentary,CGTN纪录
 东南卫视,东南卫视
 东南卫视,东南卫视
 东南卫视高清,东南卫视
+福建东南卫视高清,东南卫视
+大湾区卫视高清,大湾区卫视
 甘肃卫视,甘肃卫视
 甘肃卫视,甘肃卫视
 甘肃卫视高清,甘肃卫视
@@ -177,6 +191,7 @@ cgtndocumentary,CGTN纪录
 青海卫视高清,青海卫视
 厦门卫视高清,厦门卫视
 山东卫视高清,山东卫视
+三沙卫视高清,三沙卫视
 山西卫视高清,山西卫视
 陕西卫视高清,陕西卫视
 深圳卫视高清,深圳卫视
@@ -198,6 +213,8 @@ CETV-2,CETV2
 cetv4,CETV4
 cetv-4,CETV4
 CETV-4,CETV4
+CETV-4高清,CETV4
+山东教育,山东教育卫视
 安徽经济生活,安徽经济生活
 安徽综艺体育,安徽综艺体育
 安徽影视,安徽影视
@@ -224,6 +241,7 @@ BRTV新闻,北京新闻
 广东民生高清,广东民生
 广东影视高清,广东影视
 广东体育高清,广东体育
+广东少儿高清,广东少儿
 SCTV-2,四川经济
 SCTV-3,四川文化旅游
 SCTV-4,四川新闻
