@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>直播源文件合并排序工具</title>
+    <title>直播源文件合并排序工具 - 支持网址导入</title>
     <style>
         * {
             box-sizing: border-box;
@@ -119,6 +119,79 @@
             font-weight: bold;
             color: #28a745;
         }
+        /* 新增 URL 导入区域样式 */
+        .url-import-area {
+            margin-top: 20px;
+            background: #f1f3f5;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e9ecef;
+        }
+        .url-import-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .url-input-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .url-input-group input {
+            flex: 4;
+            min-width: 200px;
+            padding: 12px 16px;
+            border: 1px solid #ced4da;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            outline: none;
+        }
+        .url-input-group input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.2);
+        }
+        .url-input-group button {
+            flex: 1;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+            font-size: 0.95rem;
+        }
+        .url-input-group button:hover {
+            transform: scale(1.02);
+            opacity: 0.9;
+        }
+        .url-input-group button:disabled {
+            opacity: 0.6;
+            transform: none;
+            cursor: not-allowed;
+        }
+        .url-hint {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .url-hint code {
+            background: #e9ecef;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+        }
         .file-list {
             background: #f8f9fa;
             border-radius: 10px;
@@ -132,6 +205,8 @@
             align-items: center;
             justify-content: space-between;
             font-size: 1.2em;
+            flex-wrap: wrap;
+            gap: 12px;
         }
         .file-items {
             display: flex;
@@ -147,6 +222,8 @@
             border-radius: 8px;
             border: 1px solid #dee2e6;
             transition: all 0.2s;
+            flex-wrap: wrap;
+            gap: 12px;
         }
         .file-item:hover {
             border-color: #667eea;
@@ -162,6 +239,8 @@
             font-weight: bold;
             color: #495057;
             font-size: 1.1em;
+            word-break: break-all;
+            max-width: 280px;
         }
         .file-item-type {
             font-size: 0.85em;
@@ -378,7 +457,7 @@
 <div class="container">
     <div class="header">
         <h1>📺 直播源文件合并排序工具</h1>
-        <p>支持多个文件合并、去重、排序 | 自动加载 /TV/ 目录下的模板和映射表</p>
+        <p>支持本地文件上传 + 网址导入 | 合并、去重、按模板排序 | 自动加载 /TV/ 目录模板和映射表</p>
     </div>
 
     <div class="main-content">
@@ -397,11 +476,11 @@
             <div class="status-card" id="sourceStatus">
                 <h4>📡 直播源文件</h4>
                 <div class="file-path">已上传 <span id="fileCount">0</span> 个文件</div>
-                <div class="file-status" id="sourceStatusText">等待上传</div>
+                <div class="file-status" id="sourceStatusText">等待上传/导入</div>
             </div>
         </div>
 
-        <!-- 文件上传区域 -->
+        <!-- 文件上传区域 + 网址导入区 -->
         <div class="upload-section">
             <div class="upload-box" id="sourceDropZone">
                 <h3>📁 点击或拖拽上传直播源文件</h3>
@@ -409,6 +488,22 @@
                 <input type="file" id="sourceFile" multiple accept=".txt,.m3u,.m3u8" style="display: none;">
                 <div id="sourceFileInfo" class="file-info">
                     <span style="color: #999;">未选择任何文件</span>
+                </div>
+            </div>
+
+            <!-- 新增：网址导入区域 -->
+            <div class="url-import-area">
+                <div class="url-import-title">
+                    🌐 从网址导入直播源
+                    <span style="font-size: 0.75rem; background: #e2e6ea; padding: 2px 8px; border-radius: 30px;">支持 .txt / .m3u / .m3u8</span>
+                </div>
+                <div class="url-input-group">
+                    <input type="text" id="urlInput" placeholder="例如: https://example.com/live.m3u 或 http://xxx.com/tv.txt" value="">
+                    <button id="addUrlBtn">➕ 添加URL源</button>
+                </div>
+                <div class="url-hint">
+                    💡 提示：直接填入直播源文件链接，自动获取内容并合并排序（注意部分链接可能存在跨域限制，如失败请手动下载后上传）
+                    <code>支持m3u/txt格式</code>
                 </div>
             </div>
         </div>
@@ -482,7 +577,7 @@
     </div>
 
     <div class="footer">
-        ⚡ 自动加载 /TV/moban.txt 和 /TV/channel_mapping.txt | 支持多文件合并、去重 | 支持TXT、M3U、M3U8格式
+        ⚡ 自动加载 /TV/moban.txt 和 /TV/channel_mapping.txt | 支持多文件合并、去重 | 支持TXT、M3U、M3U8格式 | 新增网址导入
     </div>
 </div>
 
@@ -508,6 +603,9 @@
     const fileItems = document.getElementById('fileItems');
     const clearAllFiles = document.getElementById('clearAllFiles');
     const fileCount = document.getElementById('fileCount');
+    // 新增元素
+    const urlInput = document.getElementById('urlInput');
+    const addUrlBtn = document.getElementById('addUrlBtn');
 
     // 状态卡片元素
     const templateStatus = document.getElementById('templateStatus');
@@ -517,7 +615,7 @@
     const mappingStatusText = document.getElementById('mappingStatusText');
     const sourceStatusText = document.getElementById('sourceStatusText');
 
-    // 存储上传的文件
+    // 存储上传的文件 (包含本地上传 + 网络导入)
     let uploadedFiles = [];
     let templateContent = '';
     let mappingContent = '';
@@ -666,26 +764,22 @@ CGTN纪录
         checkFiles();
     }
 
-    // 文件上传处理
+    // 文件上传处理 (原有)
     function setupDropZone(zone, input, infoElement) {
         zone.addEventListener('click', () => input.click());
-
         zone.addEventListener('dragover', (e) => {
             e.preventDefault();
             zone.classList.add('dragover');
         });
-
         zone.addEventListener('dragleave', () => {
             zone.classList.remove('dragover');
         });
-
         zone.addEventListener('drop', (e) => {
             e.preventDefault();
             zone.classList.remove('dragover');
             const files = Array.from(e.dataTransfer.files);
             handleFiles(files);
         });
-
         input.addEventListener('change', (e) => {
             const files = Array.from(e.target.files);
             handleFiles(files);
@@ -700,15 +794,14 @@ CGTN纪录
                     name: file.name,
                     content: e.target.result,
                     type: file.name.split('.').pop().toLowerCase(),
-                    size: file.size
+                    size: file.size,
+                    isUrlSource: false
                 });
-
                 updateFileList();
                 checkFiles();
             };
             reader.readAsText(file, 'UTF-8');
         });
-
         sourceFileInfo.innerHTML = `📄 已添加 ${files.length} 个文件`;
     }
 
@@ -718,11 +811,9 @@ CGTN纪录
             fileList.style.display = 'block';
             fileCount.textContent = uploadedFiles.length;
             sourceStatus.className = 'status-card success';
-            sourceStatusText.innerHTML = `✅ 已上传 ${uploadedFiles.length} 个文件`;
+            sourceStatusText.innerHTML = `✅ ${uploadedFiles.length} 个文件（含网络源）`;
 
-            // 渲染文件列表
             fileItems.innerHTML = uploadedFiles.map((file, index) => {
-                // 解析频道数量
                 let channelCount = 0;
                 if (file.type === 'm3u' || file.type === 'm3u8') {
                     channelCount = (file.content.match(/#EXTINF/g) || []).length;
@@ -731,11 +822,11 @@ CGTN纪录
                         line.trim() && !line.includes(',#genre#')
                     ).length;
                 }
-
+                const displayName = file.isUrlSource ? `🌐 ${file.name}` : `📁 ${file.name}`;
                 return `
                     <div class="file-item">
                         <div class="file-item-info">
-                            <span class="file-item-name">${file.name}</span>
+                            <span class="file-item-name" title="${file.name}">${displayName}</span>
                             <span class="file-item-type">${file.type}</span>
                             <span class="file-item-count">${channelCount} 个频道</span>
                             <span class="file-item-size">${(file.size / 1024).toFixed(1)} KB</span>
@@ -744,21 +835,16 @@ CGTN纪录
                     </div>
                 `;
             }).join('');
-
-            // 更新统计信息中的文件数
             fileCount2.textContent = uploadedFiles.length;
         } else {
             fileList.style.display = 'none';
             fileCount.textContent = '0';
             sourceStatus.className = 'status-card';
-            sourceStatusText.innerHTML = '等待上传';
+            sourceStatusText.innerHTML = '等待上传/导入';
         }
-
-        // 更新预览按钮状态
         previewMergedBtn.disabled = uploadedFiles.length === 0;
     }
 
-    // 移除文件
     window.removeFile = function(index) {
         uploadedFiles.splice(index, 1);
         updateFileList();
@@ -772,7 +858,6 @@ CGTN纪录
         }
     };
 
-    // 清空所有文件
     clearAllFiles.addEventListener('click', () => {
         uploadedFiles = [];
         updateFileList();
@@ -782,61 +867,55 @@ CGTN纪录
         downloadBtn.style.display = 'none';
         stats.style.display = 'none';
         sourceFileInfo.innerHTML = '<span style="color: #999;">未选择任何文件</span>';
+        showStatus('info', '已清空所有文件');
     });
 
-    // 合并所有文件内容
     function mergeFiles() {
         let mergedContent = '';
-
         uploadedFiles.forEach(file => {
             mergedContent += `# ===== 文件: ${file.name} =====\n`;
             mergedContent += file.content;
             mergedContent += '\n\n';
         });
-
         return mergedContent;
     }
 
-    // 预览合并结果
     previewMergedBtn.addEventListener('click', () => {
         if (uploadedFiles.length === 0) return;
-
         const merged = mergeFiles();
         sourcePreview.value = merged;
         showStatus('info', `📊 已合并 ${uploadedFiles.length} 个文件，可在上方预览`);
     });
 
-    // 重置映射表
     resetMappingBtn.addEventListener('click', () => {
         mappingEditor.value = defaultMapping;
         showStatus('info', '✅ 已重置为默认映射表');
     });
 
-    // 设置上传区域
     setupDropZone(sourceDropZone, sourceFileInput, sourceFileInfo);
 
-    // 检查是否已准备就绪
     function checkFiles() {
         if (templateContent && uploadedFiles.length > 0) {
             processBtn.disabled = false;
             showStatus('info', `✅ 文件已就绪，共 ${uploadedFiles.length} 个文件，点击"开始合并排序处理"`);
         } else {
             processBtn.disabled = true;
-            if (!templateContent) {
+            if (!templateContent && uploadedFiles.length === 0) {
+                showStatus('error', '❌ 模板文件未加载，请先上传直播源');
+            } else if (!templateContent) {
                 showStatus('error', '❌ 模板文件未加载');
             } else if (uploadedFiles.length === 0) {
-                showStatus('info', '📁 请上传直播源文件');
+                showStatus('info', '📁 请上传直播源文件或通过网址导入');
             }
         }
     }
 
-    // 显示状态消息
     function showStatus(type, message) {
         statusMessage.className = 'status ' + type;
         statusMessage.textContent = message;
     }
 
-    // 解析映射表
+    // 解析函数 (原有 parseMapping, parseTemplate, parseM3U, parseTXT, parseAllFiles, processSorting 保持不变)
     function parseMapping(content) {
         const mapping = {};
         const lines = content.split('\n');
@@ -844,24 +923,18 @@ CGTN纪录
             line = line.trim();
             if (line && line.includes(',')) {
                 const [oldName, newName] = line.split(',').map(s => s.trim());
-                if (oldName && newName) {
-                    mapping[oldName] = newName;
-                }
+                if (oldName && newName) mapping[oldName] = newName;
             }
         });
         return mapping;
     }
-
-    // 解析模板文件
     function parseTemplate(content) {
         const categories = {};
         let currentCategory = '';
-
         const lines = content.split('\n');
         lines.forEach(line => {
             line = line.trim();
             if (!line) return;
-
             if (line.includes(',#genre#')) {
                 currentCategory = line.split(',')[0].trim();
                 categories[currentCategory] = [];
@@ -869,37 +942,26 @@ CGTN纪录
                 categories[currentCategory].push(line);
             }
         });
-
         return categories;
     }
-
-    // 解析M3U格式
     function parseM3U(content) {
         const lines = content.split('\n');
         const channels = [];
-        const seen = new Set(); // 用于去重
-
+        const seen = new Set();
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i].trim();
             if (line.startsWith('#EXTINF:-1')) {
-                // 提取频道名称
                 let name = '';
                 const nameMatch = line.match(/tvg-name="([^"]*)"/);
-                if (nameMatch) {
-                    name = nameMatch[1];
-                } else {
+                if (nameMatch) name = nameMatch[1];
+                else {
                     const lastComma = line.lastIndexOf(',');
-                    if (lastComma !== -1) {
-                        name = line.substring(lastComma + 1).trim();
-                    }
+                    if (lastComma !== -1) name = line.substring(lastComma + 1).trim();
                 }
-
-                // 获取URL（下一行）
                 if (i + 1 < lines.length) {
                     let url = lines[i + 1].trim();
                     if (url && !url.startsWith('#')) {
                         const channelLine = `${name},${url}`;
-                        // 简单的去重（基于URL）
                         if (!seen.has(url)) {
                             channels.push(channelLine);
                             seen.add(url);
@@ -908,20 +970,15 @@ CGTN纪录
                 }
             }
         }
-
         return channels;
     }
-
-    // 解析TXT格式
     function parseTXT(content) {
         const lines = content.split('\n');
         const channels = [];
-        const seen = new Set(); // 用于去重
-
+        const seen = new Set();
         lines.forEach(line => {
             line = line.trim();
             if (line && !line.includes(',#genre#')) {
-                // 简单的去重（基于URL）
                 const parts = line.split(',');
                 if (parts.length >= 2) {
                     const url = parts.slice(1).join(',');
@@ -929,29 +986,18 @@ CGTN纪录
                         channels.push(line);
                         seen.add(url);
                     }
-                } else {
-                    channels.push(line);
-                }
+                } else channels.push(line);
             }
         });
-
         return channels;
     }
-
-    // 合并解析所有文件
     function parseAllFiles() {
         let allChannels = [];
         const seenUrls = new Set();
-
         uploadedFiles.forEach(file => {
             let channels = [];
-            if (file.type === 'm3u' || file.type === 'm3u8') {
-                channels = parseM3U(file.content);
-            } else {
-                channels = parseTXT(file.content);
-            }
-
-            // 全局去重
+            if (file.type === 'm3u' || file.type === 'm3u8') channels = parseM3U(file.content);
+            else channels = parseTXT(file.content);
             channels.forEach(channel => {
                 const parts = channel.split(',');
                 if (parts.length >= 2) {
@@ -960,28 +1006,16 @@ CGTN纪录
                         allChannels.push(channel);
                         seenUrls.add(url);
                     }
-                } else {
-                    allChannels.push(channel);
-                }
+                } else allChannels.push(channel);
             });
         });
-
         return allChannels;
     }
-
-    // 处理排序
     function processSorting() {
         try {
-            // 解析映射表
             const mapping = parseMapping(mappingEditor.value);
-
-            // 解析模板
             const categories = parseTemplate(templateContent);
-
-            // 解析所有文件并去重
             const allLines = parseAllFiles();
-
-            // 应用映射
             const mappedLines = allLines.map(line => {
                 const parts = line.split(',');
                 if (parts.length >= 2) {
@@ -992,19 +1026,13 @@ CGTN纪录
                 }
                 return line;
             });
-
-            // 记录已匹配的行
             const matchedLines = new Set();
             const sortedContent = [];
-
-            // 按模板分类整理
             for (const [category, channels] of Object.entries(categories)) {
                 sortedContent.push(`${category},#genre#`);
-
                 for (const channel of channels) {
                     const channelPattern = channel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
                     const regex = new RegExp(`^\\s*${channelPattern}\\s*,`, 'i');
-
                     for (const line of mappedLines) {
                         if (regex.test(line) && !matchedLines.has(line)) {
                             sortedContent.push(line);
@@ -1014,78 +1042,45 @@ CGTN纪录
                 }
                 sortedContent.push('');
             }
-
-            // 处理未匹配的频道 - 修复：将相同名称的频道合并在一起
             const unmatchedLines = mappedLines.filter(line => !matchedLines.has(line));
-
             if (unmatchedLines.length > 0) {
                 sortedContent.push('其它,#genre#');
-
-                // 按频道名称分组
                 const groupedChannels = {};
-
                 unmatchedLines.forEach(line => {
                     const parts = line.split(',');
-                    if (parts.length >= 2) {
-                        const channelName = parts[0];
-                        if (!groupedChannels[channelName]) {
-                            groupedChannels[channelName] = [];
-                        }
-                        groupedChannels[channelName].push(line);
-                    } else {
-                        // 如果没有名称（理论上不应该发生），也添加进去
-                        if (!groupedChannels['未知']) {
-                            groupedChannels['未知'] = [];
-                        }
-                        groupedChannels['未知'].push(line);
-                    }
+                    const channelName = parts.length >= 2 ? parts[0] : '未知';
+                    if (!groupedChannels[channelName]) groupedChannels[channelName] = [];
+                    groupedChannels[channelName].push(line);
                 });
-
-                // 按频道名称排序后输出
                 const sortedChannelNames = Object.keys(groupedChannels).sort((a, b) => {
-                    // 数字优先排序
                     const aNum = parseInt(a.replace(/\D/g, '')) || 0;
                     const bNum = parseInt(b.replace(/\D/g, '')) || 0;
                     if (aNum && bNum) return aNum - bNum;
                     return a.localeCompare(b, 'zh-CN');
                 });
-
                 sortedChannelNames.forEach(channelName => {
-                    groupedChannels[channelName].forEach(line => {
-                        sortedContent.push(line);
-                    });
+                    groupedChannels[channelName].forEach(line => sortedContent.push(line));
                 });
-
                 sortedContent.push('');
             }
-
-            // 更新统计
             totalChannels.textContent = mappedLines.length;
             matchedChannels.textContent = matchedLines.size;
             unmatchedChannels.textContent = unmatchedLines.length;
             fileCount2.textContent = uploadedFiles.length;
             stats.style.display = 'flex';
-
-            // 显示结果
             const result = sortedContent.join('\n');
             resultPreview.value = result;
-
-            // 显示下载按钮
             downloadBtn.style.display = 'inline-block';
-
             showStatus('success', `✅ 处理完成！合并 ${uploadedFiles.length} 个文件，去重后共 ${mappedLines.length} 个频道，匹配 ${matchedLines.size} 个频道`);
-
         } catch (error) {
             showStatus('error', `❌ 处理出错: ${error.message}`);
             console.error(error);
         }
     }
 
-    // 下载结果
     function downloadResult() {
         const content = resultPreview.value;
         if (!content) return;
-
         const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -1097,11 +1092,75 @@ CGTN纪录
         URL.revokeObjectURL(url);
     }
 
-    // 事件监听
+    // ---------- 新增: 根据URL获取内容并添加为源 ----------
+    async function addUrlSource(rawUrl) {
+        let url = rawUrl.trim();
+        if (!url) {
+            showStatus('error', '❌ 请输入有效的URL地址');
+            return;
+        }
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            url = 'https://' + url;
+        }
+        addUrlBtn.disabled = true;
+        addUrlBtn.textContent = '⏳ 获取中...';
+        showStatus('info', `⏳ 正在获取: ${url}`);
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 15000);
+            const response = await fetch(url, { signal: controller.signal });
+            clearTimeout(timeoutId);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const content = await response.text();
+            if (!content || content.trim().length === 0) throw new Error('内容为空');
+            // 简单校验是否为直播源文本 (至少包含http或#EXTINF)
+            const hasUrlPattern = /https?:\/\//i.test(content);
+            const hasM3uTag = content.includes('#EXTINF');
+            if (!hasUrlPattern && !hasM3uTag && content.split('\n').length < 5) {
+                throw new Error('内容可能不是直播源文件，缺少链接特征');
+            }
+            // 判断类型
+            let fileType = 'txt';
+            const lowerUrl = url.toLowerCase();
+            if (lowerUrl.endsWith('.m3u') || lowerUrl.endsWith('.m3u8') || hasM3uTag) fileType = 'm3u';
+            else if (lowerUrl.endsWith('.txt')) fileType = 'txt';
+            else if (hasM3uTag) fileType = 'm3u';
+            // 生成简洁文件名
+            let shortName = url.replace(/^https?:\/\//, '').split('/')[0];
+            if (url.split('/').pop().length > 0) shortName = url.split('/').pop();
+            const fileName = `[网络] ${shortName} (${fileType.toUpperCase()})`;
+            uploadedFiles.push({
+                name: fileName,
+                content: content,
+                type: fileType,
+                size: new Blob([content]).size,
+                isUrlSource: true,
+                sourceUrl: url
+            });
+            updateFileList();
+            checkFiles();
+            showStatus('success', `✅ 成功导入: ${fileName} (${(content.length/1024).toFixed(1)} KB)`);
+            urlInput.value = '';
+        } catch (err) {
+            let errMsg = err.message;
+            if (err.name === 'AbortError') errMsg = '请求超时(15秒)';
+            showStatus('error', `❌ 导入失败: ${errMsg}。可能由于跨域限制或链接无效，建议下载后上传。`);
+            console.error(err);
+        } finally {
+            addUrlBtn.disabled = false;
+            addUrlBtn.textContent = '➕ 添加URL源';
+        }
+    }
+
+    addUrlBtn.addEventListener('click', () => {
+        addUrlSource(urlInput.value);
+    });
+    urlInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') addUrlSource(urlInput.value);
+    });
+
     processBtn.addEventListener('click', processSorting);
     downloadBtn.addEventListener('click', downloadResult);
-
-    // 页面加载时自动加载TV目录下的文件
     loadTVFiles();
 </script>
 </body>
