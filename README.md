@@ -283,7 +283,7 @@
         <td><a href="https://chinaiptv.pages.dev/Unicast/shandong/telecom.txt">🔗单播</a></td>
         <td><a href="https://chinaiptv.pages.dev/Multicast/shandong/telecom.txt">🛰️组播</a></td>
         <td><a href="https://chinaiptv.pages.dev/Unicast/shandong/broadent.txt">🔗单播</a></td>
-        <td><a href="https://chinaiptv.pages.dev/Multicast/shandong/broaden.txt">🛰️组播</a></td>
+        <td><a href="./Multicast/shandong/broaden.txt">🛰️组播</a></td>
     </tr>
     <tr>
         <td>上海</td>
