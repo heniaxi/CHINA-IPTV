@@ -22,47 +22,46 @@
 
 ### 食用软件
 
-<table>
-    <thead>
+<table style="width: 100%; border-collapse: collapse;">
+  <thead>
     <tr>
-        <th>PC:</th>
-        <th>Android：</th>
-        <th>Android TV：</th>
-        <th>IOS</th>
-        <th>MAC：</th>
+      <th style="width: 20%;">PC</th>
+      <th style="width: 20%;">Android</th>
+      <th style="width: 20%;">Android TV</th>
+      <th style="width: 20%;">IOS</th>
+      <th style="width: 20%;">MAC</th>
     </tr>
-    </thead>
-    <tbody>
-    <!-- 示例行 -->
+  </thead>
+  <tbody>
     <tr>
-        <td><a href="https://www.videolan.org/vlc/">VLC media player</a></td>
-        <td><a href="https://www.videolan.org/vlc/download-android.html">VLC media player</a></td>
-        <td><a href="https://www.videolan.org/vlc/download-android.html">VLC media player</a></td>
-        <td><a href="https://www.videolan.org/vlc/download-ios.html">VLC media player</a></td>
-        <td><a href="https://www.videolan.org/vlc/download-ios.html">VLC media player</a></td>
-    </tr>
-    <tr>
-        <td><a href="https://potplayer.org/">PotPlayer</a></td>
-        <td><a href="https://github.com/o0HalfLife0o/TVBoxOSC/releases">TVBOX</a></td>
-        <td><a href="https://github.com/o0HalfLife0o/TVBoxOSC/releases">TVBOX</a></td>
-        <td><a href="https://apps.apple.com/cn/app/aptv/id1630403500">APTV</a></td>
-        <td><a href="https://apps.apple.com/cn/app/aptv/id1630403500">APTV</a></td>
+      <td><a href="https://www.videolan.org/vlc/">VLC media player</a></td>
+      <td><a href="https://www.videolan.org/vlc/download-android.html">VLC media player</a></td>
+      <td><a href="https://www.videolan.org/vlc/download-android.html">VLC media player</a></td>
+      <td><a href="https://www.videolan.org/vlc/download-ios.html">VLC media player</a></td>
+      <td><a href="https://www.videolan.org/vlc/download-ios.html">VLC media player</a></td>
     </tr>
     <tr>
-        <td><a href="https://potplayer.org/"></a></td>
-        <td><a href="https://github.com/o0HalfLife0o/TVBoxOSC/releases">TVBOX</a></td>
-        <td><a href="https://tivimates.com/download-apk-tivimate-iptv-player/">Tivimate</a></td>
-        <td><a href="https://apps.apple.com/cn/app/aptv/id1630403500"></a></td>
-        <td><a href="https://apps.apple.com/cn/app/aptv/id1630403500"></a></td>
+      <td><a href="https://potplayer.org/">PotPlayer</a></td>
+      <td><a href="https://github.com/o0HalfLife0o/TVBoxOSC/releases">TVBOX</a></td>
+      <td><a href="https://github.com/o0HalfLife0o/TVBoxOSC/releases">TVBOX</a></td>
+      <td><a href="https://apps.apple.com/cn/app/aptv/id1630403500">APTV</a></td>
+      <td><a href="https://apps.apple.com/cn/app/aptv/id1630403500">APTV</a></td>
     </tr>
     <tr>
-        <td><a href="https://potplayer.org/"></a></td>
-        <td><a href="https://github.com/o0HalfLife0o/TVBoxOSC/releases"></a></td>
-        <td><a href="https://tivimates.com/download-apk-tivimate-iptv-player/">Tivimate</a></td>
-        <td><a href="https://apps.apple.com/cn/app/aptv/id1630403500"></a></td>
-        <td><a href="https://apps.apple.com/cn/app/aptv/id1630403500"></a></td>
+      <td><a href="https://potplayer.org/"></a></td>
+      <td><a href="https://github.com/o0HalfLife0o/TVBoxOSC/releases">TVBOX</a></td>
+      <td><a href="https://tivimates.com/download-apk-tivimate-iptv-player/">Tivimate</a></td>
+      <td><a href="https://apps.apple.com/cn/app/aptv/id1630403500"></a></td>
+      <td><a href="https://apps.apple.com/cn/app/aptv/id1630403500"></a></td>
     </tr>
-    </tbody>
+    <tr>
+      <td><a href="https://potplayer.org/"></a></td>
+      <td><a href="https://github.com/o0HalfLife0o/TVBoxOSC/releases"></a></td>
+      <td><a href="https://tivimates.com/download-apk-tivimate-iptv-player/">Tivimate</a></td>
+      <td><a href="https://apps.apple.com/cn/app/aptv/id1630403500"></a></td>
+      <td><a href="https://apps.apple.com/cn/app/aptv/id1630403500"></a></td>
+    </tr>
+  </tbody>
 </table>
 
 ### 🏄‍♀️源地址
