@@ -133,6 +133,8 @@
         <td><a href="./Multicast/guangdong/mobile.txt">🛰️组播</a></td>
         <td><a href="./Unicast/guangdong/telecom.txt">🔗单播</a></td>
         <td><a href="./Multicast/guangdong/telecom.txt">🛰️组播</a></td>
+        <td><a href="./Unicast/guangdong/broadent.txt">🌐暂无</a></td>
+        <td><a href="./Multicast/guangdong/broadent.txt">🛰️组播</a></td>
     </tr>
     <tr>
         <td>广西</td>
@@ -286,7 +288,7 @@
         <td><a href="./Multicast/shandong/mobile.txt">🛰️组播</a></td>
         <td><a href="./Unicast/shandong/telecom.txt">🔗单播</a></td>
         <td><a href="./Multicast/shandong/telecom.txt">🛰️组播</a></td>
-        <td><a href="./Unicast/shandong/broadent.txt">🔗单播</a></td>
+        <td><a href="./Unicast/shandong/broadent.txt">🌐暂无</a></td>
         <td><a href="./Multicast/shandong/broadent.txt">🛰️组播</a></td>
     </tr>
     <tr>
