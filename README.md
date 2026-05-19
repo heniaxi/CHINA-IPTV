@@ -20,6 +20,10 @@
 
 ####  https://chinaiptv.pages.dev/m3u_to_txt.html
 
+### 直播源文件排序工具
+
+####  https://chinaiptv.pages.dev/sort_channels.html
+
 ### 食用软件
 
 <table style="width: 100%; border-collapse: collapse;">
