@@ -95,7 +95,7 @@
         <td><a href="./Multicast/beijing/unicom.txt">🛰️组播</a></td>
         <td><a href="./Unicast/beijing/mobile.txt">🔗单播</a></td>
         <td><a href="./Multicast/beijing/mobile.txt">🛰️组播</a></td>
-        <td><a href="./Unicast/beijing/telecom.txt">🌐暂无</a></td>
+        <td><a href="./Unicast/beijing/telecom.txt">🔗单播</a></td>
         <td><a href="./Multicast/beijing/telecom.txt">🛰️组播</a></td>
     </tr>
     <tr>
