@@ -29,11 +29,13 @@ CCTV4高清,CCTV4
 CCTV-4高清,CCTV4
 CCTV4中文国际,CCTV4
 CCTV-4中文国际,CCTV4
+CCTV4EUO,CCTV4欧洲
 CCTV4欧洲,CCTV4欧洲
 CCTV-4欧洲,CCTV4欧洲
 CCTV4中文国际欧洲,CCTV4欧洲
 CCTV4 中文国际欧洲,CCTV4欧洲
 CCTV4中文国际欧洲高清,CCTV4欧洲
+CCTV4AME,CCTV4美洲
 CCTV4美洲,CCTV4美洲
 CCTV-4美洲,CCTV4美洲
 CCTV4中文国际美洲,CCTV4美洲
@@ -165,6 +167,7 @@ CGTN英文纪录,CGTN纪录
 CGTN外语纪录,CGTN纪录
 CGTN记录,CGTN纪录
 cgtndocumentary,CGTN纪录
+CGTNDocumentary,CGTN纪录
 CGTN Documentary,CGTN纪录
 安徽卫视4k,安徽卫视
 安徽卫视4K,安徽卫视
@@ -235,6 +238,7 @@ CETV-1,CETV1
 cetv2,CETV2
 cetv-2,CETV2
 CETV-2,CETV2
+中国教育3台,CETV3
 中国教育4台,CETV4
 cetv4,CETV4
 cetv-4,CETV4
@@ -247,20 +251,28 @@ CETV-4高清,CETV4
 安徽公共,安徽公共
 安徽农业科教,安徽农业科教
 安徽国际,安徽国际
+BTV文艺,北京文艺
 BRTV文艺,北京文艺
 北京文艺频道,北京文艺
+BTV科教,北京纪实科教
 北京纪实,北京纪实科教
 北京纪实高清,北京纪实科教
 BRTV纪实科教,北京纪实科教
+BTV影视,北京影视
 BRTV影视,北京影视
 北京影视频道,北京影视
+BTV生活,北京生活
 BRTVi生活,北京生活
 北京生活频道,北京生活
+BTV体育,北京体育休闲
 北京体育休闲,北京体育休闲
+BTV财经,北京财经
 BRTV财经,北京财经
 北京财经频道,北京财经
+BTV新闻,北京新闻
 BRTV新闻,北京新闻
 北京新闻频道,北京新闻
+BRTV国际频道,北京国际频道
 北京国际频道,北京国际频道
 北京卡酷,北京kaku少儿
 卡酷少儿,北京kaku少儿
