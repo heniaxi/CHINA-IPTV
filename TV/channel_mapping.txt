@@ -31,9 +31,11 @@ CCTV4中文国际,CCTV4
 CCTV-4中文国际,CCTV4
 CCTV4欧洲,CCTV4欧洲
 CCTV-4欧洲,CCTV4欧洲
+CCTV4中文国际欧洲,CCTV4欧洲
 CCTV4中文国际欧洲高清,CCTV4欧洲
 CCTV4美洲,CCTV4美洲
 CCTV-4美洲,CCTV4美洲
+CCTV4中文国际美洲,CCTV4美洲
 CCTV4中文国际美洲高清,CCTV4美洲
 cctv5,CCTV5
 cctv-5,CCTV5
@@ -140,6 +142,7 @@ CCTV-17高清,CCTV17
 CCTV-17农业高清,CCTV17
 CCTV17农业农村,CCTV17
 CCTV-17农业农村,CCTV17
+CCTV-NEWS,CCTVNews
 CGTN 新闻,CGTN
 CGTN新闻,CGTN
 CGTNEN,CGTN
@@ -155,6 +158,7 @@ CGTN 俄语,CGTN俄语
 CGTN阿拉伯语,CGTN阿语
 CGTN 阿拉伯语,CGTN阿语
 CGTNALBY,CGTN阿语
+CGTN英文纪录,CGTN纪录
 CGTN外语纪录,CGTN纪录
 CGTN记录,CGTN纪录
 cgtndocumentary,CGTN纪录
@@ -221,6 +225,7 @@ cgtndocumentary,CGTN纪录
 cetv1,CETV1
 cetv-1,CETV1
 CETV-1,CETV1
+中国教育-1,CETV1
 中国教育-1高清,CETV1
 中国教育2台,CETV2
 cetv2,CETV2
@@ -287,14 +292,17 @@ TVS5,广东少儿
 吉林综艺,吉林综艺·文化
 内蒙古新闻综合高清,内蒙古新闻综合
 内蒙古经济生活HD,内蒙古经济生活
+内蒙古经济生活高清,内蒙古经济生活
 内蒙古文化高清,内蒙古文体娱乐
 内蒙古文化娱乐,内蒙古文体娱乐
+内蒙古文体娱乐高清,内蒙古文体娱乐
 内蒙古农牧频道,内蒙古农牧
 内蒙古农牧频道HD,内蒙古农牧
+内蒙古农牧频道高清,内蒙古农牧
 内蒙古少儿频道,内蒙古少儿
 内蒙古少儿高清,内蒙古少儿
 内蒙古蒙语卫视HD,内蒙蒙语卫视
-蒙古语文化
+内蒙古蒙语文化高清,蒙古语文化
 内蒙古宣传
 内蒙古新闻
 SCTV-2,四川经济
