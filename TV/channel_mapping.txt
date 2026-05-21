@@ -32,10 +32,12 @@ CCTV-4中文国际,CCTV4
 CCTV4欧洲,CCTV4欧洲
 CCTV-4欧洲,CCTV4欧洲
 CCTV4中文国际欧洲,CCTV4欧洲
+CCTV4 中文国际欧洲,CCTV4欧洲
 CCTV4中文国际欧洲高清,CCTV4欧洲
 CCTV4美洲,CCTV4美洲
 CCTV-4美洲,CCTV4美洲
 CCTV4中文国际美洲,CCTV4美洲
+CCTV4 中文国际美洲,CCTV4美洲
 CCTV4中文国际美洲高清,CCTV4美洲
 cctv5,CCTV5
 cctv-5,CCTV5
@@ -143,6 +145,7 @@ CCTV-17农业高清,CCTV17
 CCTV17农业农村,CCTV17
 CCTV-17农业农村,CCTV17
 CCTV-NEWS,CCTVNews
+CGTN English,CGTN
 CGTN 新闻,CGTN
 CGTN新闻,CGTN
 CGTNEN,CGTN
@@ -162,6 +165,7 @@ CGTN英文纪录,CGTN纪录
 CGTN外语纪录,CGTN纪录
 CGTN记录,CGTN纪录
 cgtndocumentary,CGTN纪录
+CGTN Documentary,CGTN纪录
 安徽卫视4k,安徽卫视
 安徽卫视4K,安徽卫视
 安徽卫视高清,安徽卫视
@@ -255,6 +259,7 @@ BRTV新闻,北京新闻
 北京国际频道,北京国际频道
 北京卡酷,北京kaku少儿
 卡酷少儿,北京kaku少儿
+北京卡酷少儿,北京kaku少儿
 重庆文体娱乐,重庆文体娱乐
 重庆科教,重庆科教
 重庆社会与法,重庆社会与法
@@ -301,8 +306,8 @@ TVS5,广东少儿
 内蒙古农牧频道高清,内蒙古农牧
 内蒙古少儿频道,内蒙古少儿
 内蒙古少儿高清,内蒙古少儿
-内蒙古蒙语卫视HD,内蒙蒙语卫视
-内蒙古蒙古语卫视高清,内蒙蒙语卫视
+内蒙古蒙语卫视HD,内蒙古蒙语卫视
+内蒙古蒙古语卫视高清,内蒙古蒙语卫视
 内蒙古蒙语文化高清,蒙古语文化
 内蒙古宣传
 内蒙古新闻
