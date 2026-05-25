@@ -120,7 +120,7 @@
         <td>甘肃</td>
         <td><a href="./Unicast/gansu/unicom.txt">🔗单播</a></td>
         <td><a href="./Multicast/gansu/unicom.txt">🛰️组播</a></td>
-        <td><a href="./Unicast/gansu/mobile.txt">🌐暂无</a></td>
+        <td><a href="./Unicast/gansu/mobile.txt">🔗单播</a></td>
         <td><a href="./Multicast/gansu/mobile.txt">🌐暂无</a></td>
         <td><a href="./Unicast/gansu/telecom.txt">🔗单播</a></td>
         <td><a href="./Multicast/gansu/telecom.txt">🛰️组播</a></td>
