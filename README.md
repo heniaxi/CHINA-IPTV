@@ -276,7 +276,7 @@
         <td><a href="./Unicast/shaanxi/unicom.txt">🌐暂无</a></td>
         <td><a href="./Multicast/shaanxi/unicom.txt">🛰️组播</a></td>
         <td><a href="./Unicast/shaanxi/mobile.txt">🔗单播</a></td>
-        <td><a href="./Multicast/shaanxi/mobile.txt">🌐暂无</a></td>
+        <td><a href="./Multicast/shaanxi/mobile.txt">🛰️组播</a></td>
         <td><a href="./Unicast/shaanxi/telecom.txt">🔗单播</a></td>
         <td><a href="./Multicast/shaanxi/telecom.txt">🛰️组播</a></td>
     </tr>
