@@ -15,6 +15,7 @@ cctv2,CCTV2
 CCTV2HD,CCTV2
 cctv-2,CCTV2
 CCTV-2,CCTV2
+CCTV-2HD,CCTV2
 CCTV2高清,CCTV2
 CCTV-2高清,CCTV2
 CCTV-2 高清,CCTV2
@@ -26,6 +27,7 @@ cctv3,CCTV3
 CCTV3HD,CCTV3
 cctv-3,CCTV3
 CCTV-3,CCTV3
+CCTV-3HD,CCTV3
 CCTV3高清,CCTV3
 CCTV-3高清,CCTV3
 CCTV-3 高清,CCTV3
@@ -277,6 +279,8 @@ CGTN-Documentary_HD,CGTN纪录
 上海卫视,东方卫视
 东方卫视高清,东方卫视
 东方卫视 高清,东方卫视
+上海东方卫视,东方卫视
+上海东方卫视HD,东方卫视
 上海东方财经,东方财经
 甘肃卫视,甘肃卫视
 甘肃卫视HD,甘肃卫视
