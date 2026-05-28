@@ -429,6 +429,7 @@ CETV-1,CETV1
 中国教育-1,CETV1
 中国教育-1高清,CETV1
 中国教育2,CETV2
+中国教育-2,CETV2
 中国教育2台,CETV2
 cetv2,CETV2
 cetv-2,CETV2
@@ -436,6 +437,7 @@ CETV-2,CETV2
 中国教育3,CETV3
 中国教育3台,CETV3
 中国教育4,CETV4
+中国教育-4,CETV4
 中国教育4台,CETV4
 cetv4,CETV4
 cetv-4,CETV4
