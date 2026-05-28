@@ -424,6 +424,7 @@ cetv4,CETV4
 cetv-4,CETV4
 CETV-4,CETV4
 CETV-4高清,CETV4
+SDETV,山东教育卫视
 山东教育,山东教育卫视
 安徽经济生活,安徽经济生活
 安徽综艺·体育,安徽综艺体育
