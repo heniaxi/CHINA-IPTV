@@ -237,9 +237,11 @@ CGTN英文纪录,CGTN纪录
 CGTN外语纪录,CGTN纪录
 CGTN记录,CGTN纪录
 CGTN-纪录,CGTN纪录
+CGTN-纪录频道,CGTN纪录
 cgtndocumentary,CGTN纪录
 CGTNDocumentary,CGTN纪录
 CGTN Documentary,CGTN纪录
+CGTN-Documentary_HD,CGTN纪录
 安徽卫视4k,安徽卫视
 安徽卫视4K,安徽卫视
 安徽卫视高清,安徽卫视
