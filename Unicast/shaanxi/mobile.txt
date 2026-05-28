@@ -16,7 +16,6 @@ CCTV3,http://dbiptv.sn.chinamobile.com/PLTV/88888890/224/3221226398/index.m3u8
 CCTV4,http://dbiptv.sn.chinamobile.com/PLTV/88888890/224/3221226223/index.m3u8
 CCTV4,http://dbiptv.sn.chinamobile.com/PLTV/88888890/224/3221226191/index.m3u8
 CCTV4,http://dbiptv.sn.chinamobile.com/PLTV/88888890/224/3221225781/index.m3u8
-CCTV4欧洲,
 CCTV5,http://dbiptv.sn.chinamobile.com/PLTV/88888890/224/3221226395/index.m3u8
 CCTV5,http://dbiptv.sn.chinamobile.com/PLTV/88888890/224/3221225780/index.m3u8
 CCTV5,http://dbiptv.sn.chinamobile.com/PLTV/88888890/224/3221226396/index.m3u8
