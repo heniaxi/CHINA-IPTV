@@ -195,24 +195,30 @@ CGTN新闻,CGTN
 CGTNEN,CGTN
 CGTN英语,CGTN
 CGTN 英语,CGTN
+CGTN-英语,CGTN
 CGTN高清,CGTN
 CGTN西班牙语,CGTN西语
 CGTN 西班牙语,CGTN西语
+CGTN-西班牙语,CGTN西语
 cgtnsp,CGTN西语
 CGTN Espanol,CGTN西语
 cgtnfrench,CGTN法语
 CGTN Francais,CGTN法语
 CGTN 法语,CGTN法语
+CGTN-法语,CGTN法语
 cgtnru,CGTN俄语
 CGTN Russian,CGTN俄语
 CGTN 俄语,CGTN俄语
+CGTN-俄语,CGTN俄语
 CGTN阿拉伯语,CGTN阿语
 CGTN 阿拉伯语,CGTN阿语
+CGTN-阿拉伯语,CGTN阿语
 CGTN Arabic,CGTN阿语
 CGTNALBY,CGTN阿语
 CGTN英文纪录,CGTN纪录
 CGTN外语纪录,CGTN纪录
 CGTN记录,CGTN纪录
+CGTN-纪录,CGTN纪录
 cgtndocumentary,CGTN纪录
 CGTNDocumentary,CGTN纪录
 CGTN Documentary,CGTN纪录
@@ -428,6 +434,18 @@ TVS5,广东少儿
 湖南国际
 湖南新闻
 吉林综艺,吉林综艺·文化
+辽宁都市频道,辽宁都市
+辽宁影视剧频道,辽宁影视剧
+辽宁宜佳购物,辽宁宜佳
+辽宁教育青少,辽宁青少
+辽宁生活频道,辽宁生活
+辽宁公共高清,辽宁公共
+辽宁公共频道,辽宁公共
+辽宁北方频道,辽宁北方
+辽宁体育休闲,辽宁体育
+辽宁经济频道,辽宁经济
+辽宁经济高清,辽宁经济
+辽宁新闻
 内蒙古新闻综合高清,内蒙古新闻综合
 内蒙古经济生活HD,内蒙古经济生活
 内蒙古经济生活高清,内蒙古经济生活
