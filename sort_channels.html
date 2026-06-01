@@ -862,13 +862,54 @@ CGTN纪录
         sourceFileInfo.innerHTML = `📄 已添加 ${files.length} 个文件`;
     }
 
-    // 解析TXT文件获取实际频道数（与parseTXT逻辑一致）
+    // 获取实际频道数（与processSorting中的解析逻辑一致，但不去重）
     function getActualChannelCount(file) {
         if (file.type === 'm3u' || file.type === 'm3u8') {
-            return parseM3U(file.content).length;
+            return parseM3URaw(file.content).length;
         } else {
-            return parseTXT(file.content).length;
+            return parseTXTRaw(file.content).length;
         }
+    }
+
+    // parseTXT原始版本（不去重，只解析）
+    function parseTXTRaw(content) {
+        const lines = content.split('\n');
+        const channels = [];
+        lines.forEach(line => {
+            line = line.trim();
+            if (line && !line.includes(',#genre#')) {
+                const parts = line.split(',');
+                if (parts.length >= 2 && parts[1].trim()) {
+                    channels.push(line);
+                }
+            }
+        });
+        return channels;
+    }
+
+    // parseM3U原始版本（不去重，只解析）
+    function parseM3URaw(content) {
+        const lines = content.split('\n');
+        const channels = [];
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (line.startsWith('#EXTINF:-1')) {
+                let name = '';
+                const nameMatch = line.match(/tvg-name="([^"]*)"/);
+                if (nameMatch) name = nameMatch[1];
+                else {
+                    const lastComma = line.lastIndexOf(',');
+                    if (lastComma !== -1) name = line.substring(lastComma + 1).trim();
+                }
+                if (i + 1 < lines.length) {
+                    let url = lines[i + 1].trim();
+                    if (url && !url.startsWith('#')) {
+                        channels.push(`${name},${url}`);
+                    }
+                }
+            }
+        }
+        return channels;
     }
 
     function updateFileList() {
@@ -879,7 +920,6 @@ CGTN纪录
             sourceStatusText.innerHTML = `✅ ${uploadedFiles.length} 个文件（含网络源）`;
 
             fileItems.innerHTML = uploadedFiles.map((file, index) => {
-                // 使用实际解析后的频道数（与处理时一致）
                 let channelCount = getActualChannelCount(file);
                 const displayName = file.isUrlSource ? `🌐 ${file.name}` : `📁 ${file.name}`;
                 return `
@@ -1008,62 +1048,13 @@ CGTN纪录
         return categories;
     }
 
-    function parseM3U(content) {
-        const lines = content.split('\n');
-        const channels = [];
-        const seen = new Set();
-        for (let i = 0; i < lines.length; i++) {
-            const line = lines[i].trim();
-            if (line.startsWith('#EXTINF:-1')) {
-                let name = '';
-                const nameMatch = line.match(/tvg-name="([^"]*)"/);
-                if (nameMatch) name = nameMatch[1];
-                else {
-                    const lastComma = line.lastIndexOf(',');
-                    if (lastComma !== -1) name = line.substring(lastComma + 1).trim();
-                }
-                if (i + 1 < lines.length) {
-                    let url = lines[i + 1].trim();
-                    if (url && !url.startsWith('#')) {
-                        const channelLine = `${name},${url}`;
-                        if (!seen.has(url)) {
-                            channels.push(channelLine);
-                            seen.add(url);
-                        }
-                    }
-                }
-            }
-        }
-        return channels;
-    }
-
-    function parseTXT(content) {
-        const lines = content.split('\n');
-        const channels = [];
-        const seen = new Set();
-        lines.forEach(line => {
-            line = line.trim();
-            if (line && !line.includes(',#genre#')) {
-                const parts = line.split(',');
-                if (parts.length >= 2 && parts[1].trim()) {
-                    const url = parts.slice(1).join(',');
-                    if (!seen.has(url)) {
-                        channels.push(line);
-                        seen.add(url);
-                    }
-                }
-            }
-        });
-        return channels;
-    }
-
-    // 核心排序处理（带去重详情）
+    // 核心排序处理（带去重详情，去重逻辑在外层）
     function processSorting() {
         try {
             const mapping = parseMapping(mappingEditor.value);
             const categories = parseTemplate(templateContent);
 
-            // 第一步：收集所有原始频道，同时记录URL去重信息
+            // 第一步：收集所有原始频道（不去重），同时记录URL去重信息
             let allChannels = [];
             let urlDupList = [];
             const seenUrls = new Map();
@@ -1071,8 +1062,9 @@ CGTN纪录
 
             uploadedFiles.forEach(file => {
                 let channels = [];
-                if (file.type === 'm3u' || file.type === 'm3u8') channels = parseM3U(file.content);
-                else channels = parseTXT(file.content);
+                // 使用不去重版本的解析函数
+                if (file.type === 'm3u' || file.type === 'm3u8') channels = parseM3URaw(file.content);
+                else channels = parseTXTRaw(file.content);
 
                 channels.forEach(channel => {
                     totalRawCount++;
