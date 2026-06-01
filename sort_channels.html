@@ -374,6 +374,12 @@
             border: 1px solid #bee5eb;
             display: block;
         }
+        .status.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+            display: block;
+        }
         .mapping-editor {
             margin-top: 20px;
             background: #f8f9fa;
@@ -856,6 +862,15 @@ CGTN纪录
         sourceFileInfo.innerHTML = `📄 已添加 ${files.length} 个文件`;
     }
 
+    // 解析TXT文件获取实际频道数（与parseTXT逻辑一致）
+    function getActualChannelCount(file) {
+        if (file.type === 'm3u' || file.type === 'm3u8') {
+            return parseM3U(file.content).length;
+        } else {
+            return parseTXT(file.content).length;
+        }
+    }
+
     function updateFileList() {
         if (uploadedFiles.length > 0) {
             fileList.style.display = 'block';
@@ -864,14 +879,8 @@ CGTN纪录
             sourceStatusText.innerHTML = `✅ ${uploadedFiles.length} 个文件（含网络源）`;
 
             fileItems.innerHTML = uploadedFiles.map((file, index) => {
-                let channelCount = 0;
-                if (file.type === 'm3u' || file.type === 'm3u8') {
-                    channelCount = (file.content.match(/#EXTINF/g) || []).length;
-                } else {
-                    channelCount = file.content.split('\n').filter(line =>
-                        line.trim() && !line.includes(',#genre#')
-                    ).length;
-                }
+                // 使用实际解析后的频道数（与处理时一致）
+                let channelCount = getActualChannelCount(file);
                 const displayName = file.isUrlSource ? `🌐 ${file.name}` : `📁 ${file.name}`;
                 return `
                     <div class="file-item">
@@ -1036,13 +1045,13 @@ CGTN纪录
             line = line.trim();
             if (line && !line.includes(',#genre#')) {
                 const parts = line.split(',');
-                if (parts.length >= 2) {
+                if (parts.length >= 2 && parts[1].trim()) {
                     const url = parts.slice(1).join(',');
                     if (!seen.has(url)) {
                         channels.push(line);
                         seen.add(url);
                     }
-                } else channels.push(line);
+                }
             }
         });
         return channels;
@@ -1095,13 +1104,6 @@ CGTN纪录
                                 firstOriginalName: first.originalName
                             });
                         }
-                    } else {
-                        allChannels.push({
-                            originalLine: channel,
-                            originalName: channel,
-                            url: null,
-                            fileName: file.name
-                        });
                     }
                 });
             });
@@ -1177,6 +1179,7 @@ CGTN纪录
             // 显示去重详情
             if (urlDupList.length > 0) {
                 let detailsHtml = `<div style="max-height: 300px; overflow-y: auto; font-size: 12px;">
+                    <p style="margin-bottom: 10px; color: #856404;"><strong>⚠️ 以下频道因URL重复被去重：</strong></p>
                     <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
                         <thead>
                             <tr style="background: #e9ecef;">
@@ -1190,17 +1193,17 @@ CGTN纪录
 
                 for (const dup of urlDupList) {
                     detailsHtml += `<tr>
-                        <td style="padding: 6px; border-bottom: 1px solid #eee;">${escapeHtml(dup.originalName)}</td>
+                        <td style="padding: 6px; border-bottom: 1px solid #eee; color: #dc3545;">${escapeHtml(dup.originalName)}</td>
                         <td style="padding: 6px; border-bottom: 1px solid #eee;">${escapeHtml(dup.fileName)}</td>
-                        <td style="padding: 6px; border-bottom: 1px solid #eee;">${escapeHtml(dup.firstOriginalName)}</td>
+                        <td style="padding: 6px; border-bottom: 1px solid #eee; color: #28a745;">${escapeHtml(dup.firstOriginalName)}</td>
                         <td style="padding: 6px; border-bottom: 1px solid #eee;">${escapeHtml(dup.firstFileName)}</td>
                     </tr>`;
                 }
 
                 detailsHtml += `</tbody></table></div>`;
 
-                showDetailedStatus('success',
-                    `✅ 处理完成！合并 ${uploadedFiles.length} 个文件，扫描 ${totalRawCount} 条记录，去重 ${urlDupList.length} 条重复URL，最终输出 ${mappedLines.length} 个频道，匹配 ${matchedLines.size} 个频道。`,
+                showDetailedStatus('warning',
+                    `⚠️ 去重提示：发现 ${urlDupList.length} 条重复URL，已自动去重。被去重的频道：${urlDupList.map(d => d.originalName).join('、')}`,
                     detailsHtml);
             } else {
                 showStatus('success', `✅ 处理完成！合并 ${uploadedFiles.length} 个文件，扫描 ${totalRawCount} 条记录，无重复URL，最终输出 ${mappedLines.length} 个频道，匹配 ${matchedLines.size} 个频道。`);
