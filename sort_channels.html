@@ -460,7 +460,6 @@
     </div>
 
     <div class="main-content">
-        <!-- 文件状态卡片 -->
         <div class="file-status">
             <div class="status-card" id="templateStatus">
                 <h4>📋 模板文件</h4>
@@ -479,7 +478,6 @@
             </div>
         </div>
 
-        <!-- 文件上传区域 + 网址导入区 -->
         <div class="upload-section">
             <div class="upload-box" id="sourceDropZone">
                 <h3>📁 点击或拖拽上传直播源文件</h3>
@@ -506,7 +504,6 @@
             </div>
         </div>
 
-        <!-- 已上传文件列表 -->
         <div class="file-list" id="fileList" style="display: none;">
             <h3>
                 📋 已上传文件列表
@@ -518,7 +515,6 @@
             <div class="file-items" id="fileItems"></div>
         </div>
 
-        <!-- 映射表编辑区 -->
         <div class="mapping-editor">
             <h3>
                 ✏️ 频道名称映射表
@@ -527,7 +523,6 @@
             <textarea id="mappingEditor" placeholder="格式：原始名称,标准化名称&#10;例如：CCTV1综合,CCTV1&#10;CCTV-1HD,CCTV1" rows="5"></textarea>
         </div>
 
-        <!-- 统计信息 -->
         <div class="stats" id="stats" style="display: none;">
             <div class="stat-card">
                 <div class="label">总频道数</div>
@@ -547,15 +542,12 @@
             </div>
         </div>
 
-        <!-- 状态提示 -->
         <div id="statusMessage" class="status"></div>
 
-        <!-- 操作按钮 -->
         <div class="action-buttons">
             <button class="btn" id="processBtn" disabled>🔄 开始合并排序处理</button>
         </div>
 
-        <!-- 预览区域 -->
         <div class="preview-section">
             <div class="preview-box">
                 <h3>
@@ -741,39 +733,48 @@ CGTN纪录
 云南卫视
 浙江卫视`;
 
-    // ========== 新增：频道名标准化函数 ==========
-    /**
-     * 将频道名称标准化，用于简化映射和匹配
-     * 规则：
-     * 1. 去除所有空格、横线(-)、下划线(_)
-     * 2. 去除清晰度/类型词：频道、普清、高清、HD（不区分大小写）
-     * 3. 去除常见分类后缀（综合、财经、新闻、体育、电影、综艺、少儿、科教、纪录、戏曲、音乐、生活、娱乐、公共、农业、法治、国际、英文纪实等）
-     * 4. 将所有英文字母转为大写
-     * 5. 去除末尾多余的数字序号（保留主数字，如CCTV1中的1不会被删除）
-     */
+    // 频道名标准化函数
     function normalizeChannelName(name) {
         if (!name) return '';
-
-        // 1. 去除空格、横线、下划线
         let normalized = name.replace(/[-\s_]+/g, '');
-
-        // 2. 去除清晰度/类型词（全局替换，不区分大小写）
         const removeWords = ['频道', '普清', '高清', 'HD'];
         for (let word of removeWords) {
-            // 使用正则全局替换，忽略大小写
             const regex = new RegExp(word, 'gi');
             normalized = normalized.replace(regex, '');
         }
-
-        // 3. 英文转大写
         normalized = normalized.toUpperCase();
-
-        // 4. 去除首尾空白
         normalized = normalized.trim();
-
         return normalized;
     }
-    // ==========================================
+
+    // HTML转义函数
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    // 显示带详情的状态框
+    function showDetailedStatus(type, message, detailsHtml) {
+        statusMessage.className = 'status ' + type;
+        statusMessage.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                <span>${message}</span>
+                <button onclick="this.parentElement.parentElement.querySelector('.detail-content').style.display = this.parentElement.parentElement.querySelector('.detail-content').style.display === 'none' ? 'block' : 'none';"
+                        style="background: none; border: 1px solid currentColor; border-radius: 5px; padding: 2px 8px; cursor: pointer; font-size: 12px;">
+                    📋 查看去重详情
+                </button>
+            </div>
+            <div class="detail-content" style="display: none; margin-top: 10px; max-height: 300px; overflow-y: auto; background: rgba(0,0,0,0.05); border-radius: 5px; padding: 8px;">
+                ${detailsHtml}
+            </div>
+        `;
+        statusMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
 
     // 加载TV目录下的文件
     async function loadTVFiles() {
@@ -815,7 +816,6 @@ CGTN纪录
         checkFiles();
     }
 
-    // 文件上传处理
     function setupDropZone(zone, input, infoElement) {
         zone.addEventListener('click', () => input.click());
         zone.addEventListener('dragover', (e) => {
@@ -965,7 +965,6 @@ CGTN纪录
         statusMessage.textContent = message;
     }
 
-    // 解析映射表（同时标准化键名，以便匹配标准化后的频道名）
     function parseMapping(content) {
         const mapping = {};
         const lines = content.split('\n');
@@ -974,7 +973,6 @@ CGTN纪录
             if (line && line.includes(',')) {
                 let [oldName, newName] = line.split(',').map(s => s.trim());
                 if (oldName && newName) {
-                    // 将键标准化，值也可以标准化（保持一致性）
                     const stdKey = normalizeChannelName(oldName);
                     const stdValue = normalizeChannelName(newName);
                     mapping[stdKey] = stdValue;
@@ -1050,56 +1048,86 @@ CGTN纪录
         return channels;
     }
 
-    function parseAllFiles() {
-        let allChannels = [];
-        const seenUrls = new Set();
-        uploadedFiles.forEach(file => {
-            let channels = [];
-            if (file.type === 'm3u' || file.type === 'm3u8') channels = parseM3U(file.content);
-            else channels = parseTXT(file.content);
-            channels.forEach(channel => {
-                const parts = channel.split(',');
-                if (parts.length >= 2) {
-                    const url = parts.slice(1).join(',');
-                    if (!seenUrls.has(url)) {
-                        allChannels.push(channel);
-                        seenUrls.add(url);
-                    }
-                } else allChannels.push(channel);
-            });
-        });
-        return allChannels;
-    }
-
-    // 核心排序处理（已集成标准化）
+    // 核心排序处理（带去重详情）
     function processSorting() {
         try {
             const mapping = parseMapping(mappingEditor.value);
             const categories = parseTemplate(templateContent);
-            const allLines = parseAllFiles();
 
-            // 对每个频道：标准化名称 → 映射 → 生成新行
-            const mappedLines = allLines.map(line => {
-                const parts = line.split(',');
-                if (parts.length >= 2) {
-                    let originalName = parts[0];
-                    const url = parts.slice(1).join(',');
-                    // 标准化原始名称
-                    let stdName = normalizeChannelName(originalName);
-                    // 查询映射表（映射表的key已经标准化）
-                    const mappedName = mapping[stdName] || stdName;
-                    return `${mappedName},${url}`;
-                }
-                return line;
+            // 第一步：收集所有原始频道，同时记录URL去重信息
+            let allChannels = [];
+            let urlDupList = [];
+            const seenUrls = new Map();
+            let totalRawCount = 0;
+
+            uploadedFiles.forEach(file => {
+                let channels = [];
+                if (file.type === 'm3u' || file.type === 'm3u8') channels = parseM3U(file.content);
+                else channels = parseTXT(file.content);
+
+                channels.forEach(channel => {
+                    totalRawCount++;
+                    const parts = channel.split(',');
+                    if (parts.length >= 2) {
+                        const url = parts.slice(1).join(',');
+                        const originalName = parts[0];
+
+                        if (!seenUrls.has(url)) {
+                            seenUrls.set(url, {
+                                originalName: originalName,
+                                url: url,
+                                fileName: file.name,
+                                channel: channel
+                            });
+                            allChannels.push({
+                                originalLine: channel,
+                                originalName: originalName,
+                                url: url,
+                                fileName: file.name
+                            });
+                        } else {
+                            const first = seenUrls.get(url);
+                            urlDupList.push({
+                                url: url,
+                                originalName: originalName,
+                                fileName: file.name,
+                                firstFileName: first.fileName,
+                                firstOriginalName: first.originalName
+                            });
+                        }
+                    } else {
+                        allChannels.push({
+                            originalLine: channel,
+                            originalName: channel,
+                            url: null,
+                            fileName: file.name
+                        });
+                    }
+                });
             });
 
+            // 第二步：标准化名称并映射
+            const mappedItems = allChannels.map(item => {
+                let stdName = normalizeChannelName(item.originalName);
+                const mappedName = mapping[stdName] || stdName;
+                return {
+                    line: `${mappedName},${item.url}`,
+                    stdName: mappedName,
+                    url: item.url,
+                    originalName: item.originalName,
+                    fileName: item.fileName
+                };
+            });
+
+            const mappedLines = mappedItems.map(item => item.line);
+
+            // 第三步：按模板排序
             const matchedLines = new Set();
             const sortedContent = [];
 
             for (const [category, channels] of Object.entries(categories)) {
                 sortedContent.push(`${category},#genre#`);
                 for (const channel of channels) {
-                    // 模板中的频道名可能已经是标准名称，也做一次标准化以保证匹配
                     const stdChannel = normalizeChannelName(channel);
                     const channelPattern = stdChannel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
                     const regex = new RegExp(`^\\s*${channelPattern}\\s*,`, 'i');
@@ -1135,15 +1163,48 @@ CGTN纪录
                 sortedContent.push('');
             }
 
+            // 更新统计
             totalChannels.textContent = mappedLines.length;
             matchedChannels.textContent = matchedLines.size;
             unmatchedChannels.textContent = unmatchedLines.length;
             fileCount2.textContent = uploadedFiles.length;
             stats.style.display = 'flex';
+
             const result = sortedContent.join('\n');
             resultPreview.value = result;
             downloadBtn.style.display = 'inline-block';
-            showStatus('success', `✅ 处理完成！合并 ${uploadedFiles.length} 个文件，去重后共 ${mappedLines.length} 个频道，匹配 ${matchedLines.size} 个频道`);
+
+            // 显示去重详情
+            if (urlDupList.length > 0) {
+                let detailsHtml = `<div style="max-height: 300px; overflow-y: auto; font-size: 12px;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                        <thead>
+                            <tr style="background: #e9ecef;">
+                                <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">被去重的频道</th>
+                                <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">来源文件</th>
+                                <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">首次出现的频道</th>
+                                <th style="text-align: left; padding: 8px; border-bottom: 1px solid #ddd;">首次出现的文件</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+                for (const dup of urlDupList) {
+                    detailsHtml += `<tr>
+                        <td style="padding: 6px; border-bottom: 1px solid #eee;">${escapeHtml(dup.originalName)}</td>
+                        <td style="padding: 6px; border-bottom: 1px solid #eee;">${escapeHtml(dup.fileName)}</td>
+                        <td style="padding: 6px; border-bottom: 1px solid #eee;">${escapeHtml(dup.firstOriginalName)}</td>
+                        <td style="padding: 6px; border-bottom: 1px solid #eee;">${escapeHtml(dup.firstFileName)}</td>
+                    </tr>`;
+                }
+
+                detailsHtml += `</tbody></table></div>`;
+
+                showDetailedStatus('success',
+                    `✅ 处理完成！合并 ${uploadedFiles.length} 个文件，扫描 ${totalRawCount} 条记录，去重 ${urlDupList.length} 条重复URL，最终输出 ${mappedLines.length} 个频道，匹配 ${matchedLines.size} 个频道。`,
+                    detailsHtml);
+            } else {
+                showStatus('success', `✅ 处理完成！合并 ${uploadedFiles.length} 个文件，扫描 ${totalRawCount} 条记录，无重复URL，最终输出 ${mappedLines.length} 个频道，匹配 ${matchedLines.size} 个频道。`);
+            }
         } catch (error) {
             showStatus('error', `❌ 处理出错: ${error.message}`);
             console.error(error);
@@ -1164,7 +1225,6 @@ CGTN纪录
         URL.revokeObjectURL(url);
     }
 
-    // URL导入（保持不变）
     async function addUrlSource(rawUrl) {
         let url = rawUrl.trim();
         if (!url) {
