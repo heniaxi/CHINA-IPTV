@@ -765,21 +765,10 @@ CGTN纪录
             normalized = normalized.replace(regex, '');
         }
 
-        // 3. 去除常见分类后缀（通常出现在末尾，但为避免遗漏，全局替换）
-        const categoryWords = [
-            '综合', '财经', '新闻', '体育', '电影', '综艺', '少儿', '科教',
-            '纪录', '戏曲', '音乐', '生活', '娱乐', '公共', '农业', '法治',
-            '国际', '英文纪实', '纪实', '电视剧', '中文国际', '社会与法', '奥林匹克', '农业农村'
-        ];
-        for (let word of categoryWords) {
-            const regex = new RegExp(word, 'gi');
-            normalized = normalized.replace(regex, '');
-        }
-
-        // 4. 英文转大写
+        // 3. 英文转大写
         normalized = normalized.toUpperCase();
 
-        // 5. 去除首尾空白
+        // 4. 去除首尾空白
         normalized = normalized.trim();
 
         return normalized;
