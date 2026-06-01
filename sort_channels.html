@@ -119,7 +119,6 @@
             font-weight: bold;
             color: #28a745;
         }
-        /* 新增 URL 导入区域样式 */
         .url-import-area {
             margin-top: 20px;
             background: #f1f3f5;
@@ -491,7 +490,6 @@
                 </div>
             </div>
 
-            <!-- 新增：网址导入区域 -->
             <div class="url-import-area">
                 <div class="url-import-title">
                     🌐 从网址导入直播源
@@ -603,11 +601,9 @@
     const fileItems = document.getElementById('fileItems');
     const clearAllFiles = document.getElementById('clearAllFiles');
     const fileCount = document.getElementById('fileCount');
-    // 新增元素
     const urlInput = document.getElementById('urlInput');
     const addUrlBtn = document.getElementById('addUrlBtn');
 
-    // 状态卡片元素
     const templateStatus = document.getElementById('templateStatus');
     const mappingStatus = document.getElementById('mappingStatus');
     const sourceStatus = document.getElementById('sourceStatus');
@@ -615,53 +611,71 @@
     const mappingStatusText = document.getElementById('mappingStatusText');
     const sourceStatusText = document.getElementById('sourceStatusText');
 
-    // 存储上传的文件 (包含本地上传 + 网络导入)
     let uploadedFiles = [];
     let templateContent = '';
     let mappingContent = '';
 
-    // 默认映射表内容
-    const defaultMapping = `cctv1,CCTV1
-CCTV1综合,CCTV1
-CCTV-1综合,CCTV1
-CCTV1综合频道,CCTV1
-CCTV-1HD,CCTV1
-CCTV1HD,CCTV1
-cctv2,CCTV2
-CCTV2财经,CCTV2
-cctv3,CCTV3
-CCTV3综艺,CCTV3
-cctv4,CCTV4
-CCTV4中文国际,CCTV4
-cctv5,CCTV5
-CCTV5体育,CCTV5
-cctv5+,CCTV5+
-CCTV5+体育赛事,CCTV5+
-cctv5p,CCTV5+
-cctv6,CCTV6
-CCTV6电影,CCTV6
-cctv7,CCTV7
-CCTV7国防军事,CCTV7
-cctv8,CCTV8
-CCTV8电视剧,CCTV8
-cctv9,CCTV9
-CCTV9纪录,CCTV9
-cctv10,CCTV10
-CCTV10科教,CCTV10
-cctv11,CCTV11
-CCTV11戏曲,CCTV11
-cctv12,CCTV12
-CCTV12社会与法,CCTV12
-cctv13,CCTV13
-CCTV13新闻,CCTV13
-cctv14,CCTV14
-CCTV14少儿,CCTV14
-cctv15,CCTV15
-CCTV15音乐,CCTV15
-cctv16,CCTV16
-CCTV16奥林匹克,CCTV16
-cctv17,CCTV17
-CCTV17农业农村,CCTV17`;
+    // 默认映射表内容（简化版，仅基础名称）
+    const defaultMapping = `CCTV1,CCTV1
+CCTV2,CCTV2
+CCTV3,CCTV3
+CCTV4,CCTV4
+CCTV5,CCTV5
+CCTV5+,CCTV5+
+CCTV6,CCTV6
+CCTV7,CCTV7
+CCTV8,CCTV8
+CCTV9,CCTV9
+CCTV10,CCTV10
+CCTV11,CCTV11
+CCTV12,CCTV12
+CCTV13,CCTV13
+CCTV14,CCTV14
+CCTV15,CCTV15
+CCTV16,CCTV16
+CCTV17,CCTV17
+CCTV4欧洲,CCTV4欧洲
+CCTV4美洲,CCTV4美洲
+CCTVNews,CCTVNews
+CGTN,CGTN
+CGTN西语,CGTN西语
+CGTN法语,CGTN法语
+CGTN俄语,CGTN俄语
+CGTN阿语,CGTN阿语
+CGTN纪录,CGTN纪录
+安徽卫视,安徽卫视
+北京卫视,北京卫视
+重庆卫视,重庆卫视
+东方卫视,东方卫视
+东南卫视,东南卫视
+甘肃卫视,甘肃卫视
+广东卫视,广东卫视
+广西卫视,广西卫视
+贵州卫视,贵州卫视
+海南卫视,海南卫视
+河北卫视,河北卫视
+河南卫视,河南卫视
+黑龙江卫视,黑龙江卫视
+湖北卫视,湖北卫视
+湖南卫视,湖南卫视
+吉林卫视,吉林卫视
+江苏卫视,江苏卫视
+江西卫视,江西卫视
+辽宁卫视,辽宁卫视
+内蒙古卫视,内蒙古卫视
+宁夏卫视,宁夏卫视
+青海卫视,青海卫视
+厦门卫视,厦门卫视
+山东卫视,山东卫视
+山西卫视,山西卫视
+陕西卫视,陕西卫视
+深圳卫视,深圳卫视
+四川卫视,四川卫视
+天津卫视,天津卫视
+西藏卫视,西藏卫视
+新疆卫视,新疆卫视
+云南卫视,云南卫视
+浙江卫视,浙江卫视`;
 
     // 默认模板内容
     const defaultTemplate = `央视,#genre#
@@ -683,6 +697,9 @@ CCTV14
 CCTV15
 CCTV16
 CCTV17
+CCTV4欧洲
+CCTV4美洲
+CCTVNews
 CGTN
 CGTN西语
 CGTN法语
@@ -724,7 +741,52 @@ CGTN纪录
 云南卫视
 浙江卫视`;
 
-    // 自动加载TV目录下的文件
+    // ========== 新增：频道名标准化函数 ==========
+    /**
+     * 将频道名称标准化，用于简化映射和匹配
+     * 规则：
+     * 1. 去除所有空格、横线(-)、下划线(_)
+     * 2. 去除清晰度/类型词：频道、普清、高清、HD（不区分大小写）
+     * 3. 去除常见分类后缀（综合、财经、新闻、体育、电影、综艺、少儿、科教、纪录、戏曲、音乐、生活、娱乐、公共、农业、法治、国际、英文纪实等）
+     * 4. 将所有英文字母转为大写
+     * 5. 去除末尾多余的数字序号（保留主数字，如CCTV1中的1不会被删除）
+     */
+    function normalizeChannelName(name) {
+        if (!name) return '';
+
+        // 1. 去除空格、横线、下划线
+        let normalized = name.replace(/[-\s_]+/g, '');
+
+        // 2. 去除清晰度/类型词（全局替换，不区分大小写）
+        const removeWords = ['频道', '普清', '高清', 'HD'];
+        for (let word of removeWords) {
+            // 使用正则全局替换，忽略大小写
+            const regex = new RegExp(word, 'gi');
+            normalized = normalized.replace(regex, '');
+        }
+
+        // 3. 去除常见分类后缀（通常出现在末尾，但为避免遗漏，全局替换）
+        const categoryWords = [
+            '综合', '财经', '新闻', '体育', '电影', '综艺', '少儿', '科教',
+            '纪录', '戏曲', '音乐', '生活', '娱乐', '公共', '农业', '法治',
+            '国际', '英文纪实', '纪实', '电视剧', '中文国际', '社会与法', '奥林匹克', '农业农村'
+        ];
+        for (let word of categoryWords) {
+            const regex = new RegExp(word, 'gi');
+            normalized = normalized.replace(regex, '');
+        }
+
+        // 4. 英文转大写
+        normalized = normalized.toUpperCase();
+
+        // 5. 去除首尾空白
+        normalized = normalized.trim();
+
+        return normalized;
+    }
+    // ==========================================
+
+    // 加载TV目录下的文件
     async function loadTVFiles() {
         try {
             const templateResponse = await fetch('/TV/moban.txt');
@@ -764,7 +826,7 @@ CGTN纪录
         checkFiles();
     }
 
-    // 文件上传处理 (原有)
+    // 文件上传处理
     function setupDropZone(zone, input, infoElement) {
         zone.addEventListener('click', () => input.click());
         zone.addEventListener('dragover', (e) => {
@@ -805,7 +867,6 @@ CGTN纪录
         sourceFileInfo.innerHTML = `📄 已添加 ${files.length} 个文件`;
     }
 
-    // 更新文件列表显示
     function updateFileList() {
         if (uploadedFiles.length > 0) {
             fileList.style.display = 'block';
@@ -915,19 +976,25 @@ CGTN纪录
         statusMessage.textContent = message;
     }
 
-    // 解析函数 (原有 parseMapping, parseTemplate, parseM3U, parseTXT, parseAllFiles, processSorting 保持不变)
+    // 解析映射表（同时标准化键名，以便匹配标准化后的频道名）
     function parseMapping(content) {
         const mapping = {};
         const lines = content.split('\n');
         lines.forEach(line => {
             line = line.trim();
             if (line && line.includes(',')) {
-                const [oldName, newName] = line.split(',').map(s => s.trim());
-                if (oldName && newName) mapping[oldName] = newName;
+                let [oldName, newName] = line.split(',').map(s => s.trim());
+                if (oldName && newName) {
+                    // 将键标准化，值也可以标准化（保持一致性）
+                    const stdKey = normalizeChannelName(oldName);
+                    const stdValue = normalizeChannelName(newName);
+                    mapping[stdKey] = stdValue;
+                }
             }
         });
         return mapping;
     }
+
     function parseTemplate(content) {
         const categories = {};
         let currentCategory = '';
@@ -944,6 +1011,7 @@ CGTN纪录
         });
         return categories;
     }
+
     function parseM3U(content) {
         const lines = content.split('\n');
         const channels = [];
@@ -972,6 +1040,7 @@ CGTN纪录
         }
         return channels;
     }
+
     function parseTXT(content) {
         const lines = content.split('\n');
         const channels = [];
@@ -991,6 +1060,7 @@ CGTN纪录
         });
         return channels;
     }
+
     function parseAllFiles() {
         let allChannels = [];
         const seenUrls = new Set();
@@ -1011,27 +1081,38 @@ CGTN纪录
         });
         return allChannels;
     }
+
+    // 核心排序处理（已集成标准化）
     function processSorting() {
         try {
             const mapping = parseMapping(mappingEditor.value);
             const categories = parseTemplate(templateContent);
             const allLines = parseAllFiles();
+
+            // 对每个频道：标准化名称 → 映射 → 生成新行
             const mappedLines = allLines.map(line => {
                 const parts = line.split(',');
                 if (parts.length >= 2) {
-                    const originalName = parts[0];
+                    let originalName = parts[0];
                     const url = parts.slice(1).join(',');
-                    const mappedName = mapping[originalName] || originalName;
+                    // 标准化原始名称
+                    let stdName = normalizeChannelName(originalName);
+                    // 查询映射表（映射表的key已经标准化）
+                    const mappedName = mapping[stdName] || stdName;
                     return `${mappedName},${url}`;
                 }
                 return line;
             });
+
             const matchedLines = new Set();
             const sortedContent = [];
+
             for (const [category, channels] of Object.entries(categories)) {
                 sortedContent.push(`${category},#genre#`);
                 for (const channel of channels) {
-                    const channelPattern = channel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    // 模板中的频道名可能已经是标准名称，也做一次标准化以保证匹配
+                    const stdChannel = normalizeChannelName(channel);
+                    const channelPattern = stdChannel.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
                     const regex = new RegExp(`^\\s*${channelPattern}\\s*,`, 'i');
                     for (const line of mappedLines) {
                         if (regex.test(line) && !matchedLines.has(line)) {
@@ -1042,6 +1123,7 @@ CGTN纪录
                 }
                 sortedContent.push('');
             }
+
             const unmatchedLines = mappedLines.filter(line => !matchedLines.has(line));
             if (unmatchedLines.length > 0) {
                 sortedContent.push('其它,#genre#');
@@ -1063,6 +1145,7 @@ CGTN纪录
                 });
                 sortedContent.push('');
             }
+
             totalChannels.textContent = mappedLines.length;
             matchedChannels.textContent = matchedLines.size;
             unmatchedChannels.textContent = unmatchedLines.length;
@@ -1092,7 +1175,7 @@ CGTN纪录
         URL.revokeObjectURL(url);
     }
 
-    // ---------- 新增: 根据URL获取内容并添加为源 ----------
+    // URL导入（保持不变）
     async function addUrlSource(rawUrl) {
         let url = rawUrl.trim();
         if (!url) {
@@ -1113,19 +1196,16 @@ CGTN纪录
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const content = await response.text();
             if (!content || content.trim().length === 0) throw new Error('内容为空');
-            // 简单校验是否为直播源文本 (至少包含http或#EXTINF)
             const hasUrlPattern = /https?:\/\//i.test(content);
             const hasM3uTag = content.includes('#EXTINF');
             if (!hasUrlPattern && !hasM3uTag && content.split('\n').length < 5) {
                 throw new Error('内容可能不是直播源文件，缺少链接特征');
             }
-            // 判断类型
             let fileType = 'txt';
             const lowerUrl = url.toLowerCase();
             if (lowerUrl.endsWith('.m3u') || lowerUrl.endsWith('.m3u8') || hasM3uTag) fileType = 'm3u';
             else if (lowerUrl.endsWith('.txt')) fileType = 'txt';
             else if (hasM3uTag) fileType = 'm3u';
-            // 生成简洁文件名
             let shortName = url.replace(/^https?:\/\//, '').split('/')[0];
             if (url.split('/').pop().length > 0) shortName = url.split('/').pop();
             const fileName = `[网络] ${shortName} (${fileType.toUpperCase()})`;
