@@ -65,16 +65,21 @@ CGTN纪录,rtsp://112.245.125.47:1554/iptv/import/Tvod/iptv/001/001/ch2106221540
 浙江卫视,rtsp://112.245.125.44:1554/iptv/import/Tvod/iptv/001/001/ch15050917541521964962.rsc/69949_Uni.sdp
 
 教育,#genre#
+CETV1,rtsp://112.245.125.42:1554/iptv/import/Tvod/iptv/001/001/ch17120418204481298161.rsc/74278_Uni.sdp
+CETV2,rtsp://112.245.125.38:1554/iptv/import/Tvod/iptv/001/001/ch17120417211408620162.rsc/74298_Uni.sdp
+CETV4,rtsp://112.245.125.48:1554/iptv/import/Tvod/iptv/001/001/ch17120418055568047747.rsc/74289_Uni.sdp
 山东教育卫视,rtsp://112.245.125.41:1554/iptv/import/Tvod/iptv/001/001/ch10120118342495301658.rsc/69990_Uni.sdp
 
 地方,#genre#
 北京纪实科教,rtsp://112.245.125.47:1554/iptv/import/Tvod/iptv/001/001/ch24020510150834566089.rsc/99953_Uni.sdp
-北京kaku少儿,rtsp://112.245.125.47:1554/iptv/import/Tvod/iptv/001/001/ch10120118400576795406.rsc/69993_Uni.sdp
+北京KAKU少儿,rtsp://112.245.125.47:1554/iptv/import/Tvod/iptv/001/001/ch10120118400576795406.rsc/69993_Uni.sdp
 东方财经,rtsp://112.245.125.39:1554/iptv/import/Tvod/iptv/001/001/ch16051316174673479081.rsc/96398_Uni.sdp
 东南卫视,rtsp://112.245.125.47:1554/iptv/import/Tvod/iptv/001/001/ch17082318094203998689.rsc/71682_Uni.sdp
 厦门卫视,rtsp://112.245.125.42:1554/iptv/import/Tvod/iptv/001/001/ch17120418140581348001.rsc/74165_Uni.sdp
 嘉佳卡通,rtsp://112.245.125.39:1554/iptv/import/Tvod/iptv/001/001/ch15050917541249689380.rsc/69983_Uni.sdp
 三沙卫视,rtsp://112.245.125.39:1554/iptv/import/Tvod/iptv/001/001/ch19120615372589393337.rsc/89705_Uni.sdp
+金鹰卡通,rtsp://112.245.125.42:1554/iptv/import/Tvod/iptv/001/001/ch11122400412227153064.rsc/70028_Uni.sdp
+金鹰卡通,rtsp://112.245.125.47:1554/iptv/import/Tvod/iptv/001/001/ch24111213065813502431.rsc/101580_Uni.sdp
 延边卫视,rtsp://112.245.125.48:1554/iptv/import/Tvod/iptv/001/001/ch23072116063432685915.rsc/98595_Uni.sdp
 山东齐鲁,rtsp://112.245.125.39:1554/iptv/import/Tvod/iptv/001/001/ch10120117223157422538.rsc/70061_Uni.sdp
 山东农科,rtsp://112.245.125.38:1554/iptv/import/Tvod/iptv/001/001/ch11012815072111657053.rsc/70046_Uni.sdp
@@ -99,7 +104,6 @@ CGTN纪录,rtsp://112.245.125.47:1554/iptv/import/Tvod/iptv/001/001/ch2106221540
 金色学堂,rtsp://112.245.125.41:1554/iptv/import/Tvod/iptv/001/001/ch16051316370413715540.rsc/70002_Uni.sdp
 经典剧场,rtsp://112.245.125.39:1554/iptv/import/Tvod/iptv/001/001/ch15090915512437000823.rsc/70022_Uni.sdp
 汽摩,rtsp://112.245.125.48:1554/iptv/import/Tvod/iptv/001/001/ch23112715323902470603.rsc/99884_Uni.sdp
-中国教育2,rtsp://112.245.125.38:1554/iptv/import/Tvod/iptv/001/001/ch17120417211408620162.rsc/74298_Uni.sdp
 CCTV4K,rtsp://112.245.125.38:1554/iptv/import/Tvod/iptv/001/001/ch23122814382128126762.rsc/99912_Uni.sdp
 山东卫视4K,rtsp://112.245.125.44:1554/iptv/import/Tvod/iptv/001/001/ch25081411425529721444.rsc/103166_Uni.sdp
 江苏卫视4K,rtsp://112.245.125.44:1554/iptv/import/Tvod/iptv/001/001/ch25092214081313070909.rsc/103254_Uni.sdp
@@ -107,15 +111,13 @@ CCTV4K,rtsp://112.245.125.38:1554/iptv/import/Tvod/iptv/001/001/ch23122814382128
 金鹰纪实,rtsp://112.245.125.48:1554/iptv/import/Tvod/iptv/001/001/ch15050917541337365144.rsc/70053_Uni.sdp
 浙江卫视4K,rtsp://112.245.125.45:1554/iptv/import/Tvod/iptv/001/001/ch25092214075944736959.rsc/103230_Uni.sdp
 东方卫视4K,rtsp://112.245.125.45:1554/iptv/import/Tvod/iptv/001/001/ch25092214082801723362.rsc/103278_Uni.sdp
-金鹰卡通,rtsp://112.245.125.42:1554/iptv/import/Tvod/iptv/001/001/ch11122400412227153064.rsc/70028_Uni.sdp
-金鹰卡通,rtsp://112.245.125.47:1554/iptv/import/Tvod/iptv/001/001/ch24111213065813502431.rsc/101580_Uni.sdp
 精彩影视,rtsp://112.245.125.38:1554/iptv/import/Tvod/iptv/001/001/ch21092610322847858391.rsc/92512_Uni.sdp
 军旅剧场,rtsp://112.245.125.41:1554/iptv/import/Tvod/iptv/001/001/ch15090915023023311866.rsc/69969_Uni.sdp
 快乐垂钓,rtsp://112.245.125.41:1554/iptv/import/Tvod/iptv/001/001/ch21082717343948936881.rsc/96392_Uni.sdp
 乐游,rtsp://112.245.125.39:1554/iptv/import/Tvod/iptv/001/001/ch16051316264757381898.rsc/69991_Uni.sdp
 梨园,rtsp://112.245.125.38:1554/iptv/import/Tvod/iptv/001/001/ch21092610314667739520.rsc/92523_Uni.sdp
 求索纪录,rtsp://112.245.125.47:1554/iptv/import/Tvod/iptv/001/001/ch25041514142600797103.rsc/102871_Uni.sdp
-山东海洋频道,rtsp://112.245.125.38:1554/iptv/import/Tvod/iptv/001/001/ch22111116270462496793.rsc/96159_Uni.sdp
+山东海洋,rtsp://112.245.125.38:1554/iptv/import/Tvod/iptv/001/001/ch22111116270462496793.rsc/96159_Uni.sdp
 山东经济广播,rtsp://112.245.125.42:1554/iptv/import/Tvod/iptv/001/001/ch24040915081276788638.rsc/100010_Uni.sdp
 生活时尚,rtsp://112.245.125.42:1554/iptv/import/Tvod/iptv/001/001/ch16051316300118213959.rsc/69982_Uni.sdp
 生态环境,rtsp://112.245.125.47:1554/iptv/import/Tvod/iptv/001/001/ch24111213061931833007.rsc/101604_Uni.sdp
@@ -176,8 +178,6 @@ CCTV4K,rtsp://112.245.125.38:1554/iptv/import/Tvod/iptv/001/001/ch23122814382128
 游戏风云,rtsp://112.245.125.48:1554/iptv/import/Tvod/iptv/001/001/ch16051316213602697345.rsc/70026_Uni.sdp
 早教,rtsp://112.245.125.42:1554/iptv/import/Tvod/iptv/001/001/ch15090916274339587371.rsc/69944_Uni.sdp
 中国交通,rtsp://112.245.125.41:1554/iptv/import/Tvod/iptv/001/001/ch20110221445820405906.rsc/90479_Uni.sdp
-中国教育1,rtsp://112.245.125.42:1554/iptv/import/Tvod/iptv/001/001/ch17120418204481298161.rsc/74278_Uni.sdp
-中国教育4,rtsp://112.245.125.48:1554/iptv/import/Tvod/iptv/001/001/ch17120418055568047747.rsc/74289_Uni.sdp
 中华特产,rtsp://112.245.125.48:1554/iptv/import/Tvod/iptv/001/001/ch22122209144768479365.rsc/98231_Uni.sdp
 中学生,rtsp://112.245.125.41:1554/iptv/import/Tvod/iptv/001/001/ch24012314300175015886.rsc/100054_Uni.sdp
 足球,rtsp://112.245.125.41:1554/iptv/import/Tvod/iptv/001/001/ch15090915041757410943.rsc/69998_Uni.sdp
