@@ -2,6 +2,31 @@ import requests
 import re
 import os
 
+def normalize_channel_name(name):
+    """
+    频道名标准化函数，与前端HTML保持一致
+    规则：
+    1. 去除所有空格、横线(-)、下划线(_)
+    2. 去除清晰度/类型词：频道、普清、高清、HD（不区分大小写）
+    3. 将所有英文字母转为大写
+    """
+    if not name:
+        return ''
+
+    # 1. 去除空格、横线、下划线
+    normalized = re.sub(r'[-\s_]+', '', name)
+
+    # 2. 去除清晰度/类型词（不区分大小写）
+    remove_words = ['频道', '普清', '高清', 'HD']
+    for word in remove_words:
+        normalized = re.sub(word, '', normalized, flags=re.IGNORECASE)
+
+    # 3. 英文字母转大写
+    normalized = normalized.upper()
+
+    # 4. 去除首尾空白
+    return normalized.strip()
+
 def load_source_urls():
     """从文件加载源地址列表"""
     source_path = "TV/sources.txt"
@@ -60,7 +85,7 @@ def load_categories_from_template():
     return categories
 
 def load_channel_mapping():
-    """加载频道名称映射表"""
+    """加载频道名称映射表，并对key进行标准化"""
     mapping = {}
     mapping_path = "TV/channel_mapping.txt"
     if not os.path.exists(mapping_path):
@@ -73,7 +98,10 @@ def load_channel_mapping():
                 if not line or "," not in line:
                     continue
                 old_name, new_name = line.split(",", 1)
-                mapping[old_name.strip()] = new_name.strip()
+                # 标准化key，value也可以标准化
+                std_key = normalize_channel_name(old_name.strip())
+                std_value = normalize_channel_name(new_name.strip())
+                mapping[std_key] = std_value
         print(f"加载映射表成功，共 {len(mapping)} 条映射")
     except Exception as e:
         print(f"加载映射表失败: {e}")
@@ -103,7 +131,9 @@ def parse_content(content, is_m3u=False):
                 name_match = re.search(r'tvg-name="([^"]*)"', line)
                 name = name_match.group(1) if name_match else line.split(',')[-1].strip()
 
-                name = re.sub(r'\s+', ' ', name).strip()
+                # 标准化频道名
+                name = normalize_channel_name(name)
+                # 应用映射表
                 name = mapping.get(name, name)
 
                 if i + 1 < len(lines):
@@ -130,9 +160,11 @@ def parse_content(content, is_m3u=False):
                 if len(parts) == 2:
                     name = parts[0].strip()
                     url = parts[1].strip()
-                    # ✅ 修复：放宽URL检查，与M3U一致（只要不是注释行就保留）
                     if url and not url.startswith('#'):
-                        name = mapping.get(name, name)  # 映射频道名
+                        # 标准化频道名
+                        name = normalize_channel_name(name)
+                        # 应用映射表
+                        name = mapping.get(name, name)
                         if current_group not in channels:
                             channels[current_group] = []
                         channels[current_group].append(f"{name},{url}")
@@ -215,19 +247,24 @@ def main():
     for category, channels in categories.items():
         sorted_content.append(f"{category},#genre#")
         for channel in channels:
-            channel_pattern = re.escape(channel)
+            # 标准化模板中的频道名
+            std_channel = normalize_channel_name(channel)
+            channel_pattern = re.escape(std_channel)
             for line in all_lines:
-                if re.match(rf"^\s*{channel_pattern}\s*,", line, re.IGNORECASE):
-                    if line not in matched_lines:
-                        sorted_content.append(line)
-                        matched_lines.add(line)
-                    # 不移除break，允许多源同一频道多个URL
+                # 提取行中的频道名（逗号前的内容）进行标准化匹配
+                parts = line.split(',', 1)
+                if len(parts) >= 2:
+                    line_channel = normalize_channel_name(parts[0])
+                    if re.match(rf"^{channel_pattern}$", line_channel, re.IGNORECASE):
+                        if line not in matched_lines:
+                            sorted_content.append(line)
+                            matched_lines.add(line)
         sorted_content.append("")
 
     # 剩余未匹配的归入"其它"
     other_lines = [line for line in all_lines if line not in matched_lines]
 
-    # ✅ 去重：保留顺序，去除完全重复的行
+    # 去重：保留顺序，去除完全重复的行
     seen = set()
     other_lines_unique = []
     for line in other_lines:
